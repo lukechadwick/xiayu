@@ -70,6 +70,8 @@ function keyHandler(e) {
     controlState.down = key_state;
   else if (e.keyCode == 32)
     controlState.shoot = key_state;
+
+    shoot();
 }
 
 
@@ -100,7 +102,7 @@ function draw() {
   duck();
 
 
-  shoot();
+ 
 
   drawBox();
 
@@ -116,21 +118,22 @@ function draw() {
 };
 draw();
 
+
+counting;
 function shoot (){
+
   if (controlState.shoot && !gunReloading){
     ballnumber ++
     makeBall();
     gunReloading = true;
+    
   }
-
+  controlState.shoot = false;
   if (gunReloading){
   setTimeout(function(){
-   //gunReloading = false;
-  }, 500);
+   gunReloading = false;
+  }, 700);
 }
-
- // setTimeout(function(){ alert("Hello"); }, 3000);
-
 }
 
 function duck() {
@@ -190,6 +193,8 @@ function drawBox() {
   gameWindow.rect(playerSprite.x, playerSprite.y, playerSprite.width, playerSprite.height);
   gameWindow.fill();
 }
+
+
 
 function drawLine() {
   gameWindow.strokeStyle = "#202830";

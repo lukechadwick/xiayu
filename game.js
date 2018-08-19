@@ -10,9 +10,18 @@ let duckHeight = boxSize / 2;
 let windowHeight = 200;
 let windowWidth = 640;
 let groundHeight = 24;
+let gunReloading = false;
 
 gameWindow.canvas.height = windowHeight;
 gameWindow.canvas.width = windowWidth;
+
+var ballRadius = 10;
+let ballnumber = 1;
+let ballspeed = 5;
+
+let ballArray = {
+  "balls": []
+}
 
 //Draw a square
 playerSprite = {
@@ -32,7 +41,21 @@ controlState = {
   right: false,
   up: false,
   down: false,
+  shoot: false
 };
+
+function makeBall(){
+for (let i = ballnumber - 1; i < ballnumber; i++) {
+  ballArray.balls[i] = {
+      "dx": ballspeed + Math.random(),
+      "dy": -(ballspeed + Math.random()),
+      'x': (playerSprite.x + 20),
+      'y': (playerSprite.y + 15)
+  }
+  console.log(ballArray)
+}
+}
+makeBall();
 
 function keyHandler(e) {
   var key_state = (event.type == "keydown") ? true : false;
@@ -45,6 +68,27 @@ function keyHandler(e) {
     controlState.right = key_state;
   else if (e.keyCode == 40)
     controlState.down = key_state;
+  else if (e.keyCode == 32)
+    controlState.shoot = key_state;
+}
+
+
+function ballSpeed() {
+  for (let i = 0; i < ballnumber; i++) {
+     ballArray.balls[i].x += ballArray.balls[i].dx;
+   //  ballArray.balls[i].y += ballArray.balls[i].dy;
+  }
+}
+
+function drawBall() {
+  for (let i = 0; i < ballnumber; i++) {
+      gameWindow.beginPath();
+      gameWindow.arc(ballArray.balls[i].x, ballArray.balls[i].y, ballRadius, 0, Math.PI * 2);
+      gameWindow.fillStyle = "#0095DD";
+      gameWindow.fill();
+      gameWindow.stroke();
+      gameWindow.closePath();
+  }
 }
 
 function draw() {
@@ -55,14 +99,39 @@ function draw() {
 
   duck();
 
+
+  shoot();
+
   drawBox();
 
   drawLine();
+
+  drawBall();
+
+  ballSpeed();
+
 
   // call update when the browser is ready to draw again
   window.requestAnimationFrame(draw);
 };
 draw();
+
+function shoot (){
+  if (controlState.shoot && !gunReloading){
+    ballnumber ++
+    makeBall();
+    gunReloading = true;
+  }
+
+  if (gunReloading){
+  setTimeout(function(){
+   //gunReloading = false;
+  }, 500);
+}
+
+ // setTimeout(function(){ alert("Hello"); }, 3000);
+
+}
 
 function duck() {
   if (controlState.down) {

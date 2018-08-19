@@ -1,17 +1,14 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title>Game Test</title>
-    <link rel="stylesheet" href="css.css">
-</head>
+* { 
+    padding: 0;
+    margin: 0;
+}
 
-<body>
-
-<canvas id="myCanvas" width="480" height="320"></canvas>
-
-<script src="game.js"></script>
-
-</body>
-
-</html>
+canvas { 
+    background: radial-gradient(
+        circle at top right,
+        yellow,
+        #f06d06 70%
+      );
+    display: block;
+    margin: 0 auto;
+}

@@ -24,16 +24,22 @@ let ballArray = {
 }
 
 //Draw a square
-playerSprite = {
-  height: boxSize,
-  width: boxSize / 2,
+playerSprite = { 
+  height: boxSize, width: boxSize / 2,
 
   jumpState: false,
 
-  x: windowWidth / 2, // center of the canvas
-  y: 0,
-  x_velocity: 0,
-  y_velocity: 0
+  x: windowWidth / 2,  y: 0,
+  x_velocity: 0, y_velocity: 0
+};
+
+player2Sprite = { 
+  height: boxSize, width: boxSize / 2,
+
+  jumpState: false,
+
+  x: windowWidth / 2,  y: 0,
+  x_velocity: 0, y_velocity: 0
 };
 
 controlState = {
@@ -41,6 +47,14 @@ controlState = {
   right: false,
   up: false,
   down: false,
+  shoot: false
+};
+
+control2State = {
+  aKey: false,
+  dKey: false,
+  wKey: false,
+  sKey: false,
   shoot: false
 };
 
@@ -60,6 +74,7 @@ makeBall();
 function keyHandler(e) {
   var key_state = (event.type == "keydown") ? true : false;
 
+  //Player One
   if (e.keyCode == 37)
     controlState.left = key_state;
   else if (e.keyCode == 38)
@@ -70,6 +85,19 @@ function keyHandler(e) {
     controlState.down = key_state;
   else if (e.keyCode == 32)
     controlState.shoot = key_state;
+
+  //Player2
+  if (e.keyCode == 65)
+    controlState.aKey = key_state;
+  else if (e.keyCode == 87)
+    controlState.wKey = key_state
+  else if (e.keyCode == 68)
+    controlState.dKey = key_state;
+  else if (e.keyCode == 83)
+    controlState.sKey = key_state;
+  else if (e.keyCode == 32)
+    controlState.shoot = key_state;
+
 
     shoot();
 }
@@ -93,16 +121,13 @@ function drawBall() {
   }
 }
 
-function draw() {
+function drawFrame() {
 
   physics();
 
   boundaries();
 
   duck();
-
-
- 
 
   drawBox();
 
@@ -112,16 +137,13 @@ function draw() {
 
   ballSpeed();
 
-
   // call update when the browser is ready to draw again
-  window.requestAnimationFrame(draw);
+  window.requestAnimationFrame(drawFrame);
 };
-draw();
+drawFrame();
 
 
-counting;
 function shoot (){
-
   if (controlState.shoot && !gunReloading){
     ballnumber ++
     makeBall();
@@ -186,15 +208,18 @@ function physics() {
 }
 
 function drawBox() {
-  gameWindow.fillStyle = "#202020";
+
+  var windowGradient=gameWindow.createLinearGradient(0,200,0,0);
+  windowGradient.addColorStop(0,"black");
+  windowGradient.addColorStop(1,"gray");  
+
+  gameWindow.fillStyle = windowGradient;
   gameWindow.fillRect(0, 0, windowWidth, windowHeight); // x, y, width, height
   gameWindow.fillStyle = "#ff0000"; // hex for red
   gameWindow.beginPath();
   gameWindow.rect(playerSprite.x, playerSprite.y, playerSprite.width, playerSprite.height);
   gameWindow.fill();
 }
-
-
 
 function drawLine() {
   gameWindow.strokeStyle = "#202830";

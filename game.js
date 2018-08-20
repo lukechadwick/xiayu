@@ -5,227 +5,240 @@ document.addEventListener("keyup", keyHandler);
 
 gameWindow = document.querySelector("canvas").getContext("2d");
 
+//Player
 let boxSize = 40;
 let duckHeight = boxSize / 2;
+
+//World
 let windowHeight = 200;
 let windowWidth = 640;
 let groundHeight = 24;
+
+//Gun State
 let gunReloading = false;
 
-gameWindow.canvas.height = windowHeight;
-gameWindow.canvas.width = windowWidth;
-
+//Ball
 var ballRadius = 10;
 let ballnumber = 1;
 let ballspeed = 5;
 
+//Window Size
+gameWindow.canvas.height = windowHeight;
+gameWindow.canvas.width = windowWidth;
+
 let ballArray = {
-  "balls": []
+	"balls": []
 }
 
 //Draw a square
-playerSprite = { 
-  height: boxSize, width: boxSize / 2,
+playerSprite = {
+	height: boxSize,
+	width: boxSize / 2,
 
-  jumpState: false,
+	jumpState: false,
 
-  x: windowWidth / 2,  y: 0,
-  x_velocity: 0, y_velocity: 0
+	x: windowWidth / 2,
+	y: 0,
+	x_velocity: 0,
+	y_velocity: 0
 };
 
-player2Sprite = { 
-  height: boxSize, width: boxSize / 2,
+player2Sprite = {
+	height: boxSize,
+	width: boxSize / 2,
 
-  jumpState: false,
+	jumpState: false,
 
-  x: windowWidth / 2,  y: 0,
-  x_velocity: 0, y_velocity: 0
+	x: windowWidth / 2,
+	y: 0,
+	x_velocity: 0,
+	y_velocity: 0
 };
 
 controlState = {
-  left: false,
-  right: false,
-  up: false,
-  down: false,
-  shoot: false
+	left: false,
+	right: false,
+	up: false,
+	down: false,
+	shoot: false
 };
 
 control2State = {
-  aKey: false,
-  dKey: false,
-  wKey: false,
-  sKey: false,
-  shoot: false
+	aKey: false,
+	dKey: false,
+	wKey: false,
+	sKey: false,
+	shoot: false
 };
 
-function makeBall(){
-for (let i = ballnumber - 1; i < ballnumber; i++) {
-  ballArray.balls[i] = {
-      "dx": ballspeed + Math.random(),
-      "dy": -(ballspeed + Math.random()),
-      'x': (playerSprite.x + 20),
-      'y': (playerSprite.y + 15)
-  }
-  console.log(ballArray)
-}
+function makeBall() {
+	for (let i = ballnumber - 1; i < ballnumber; i++) {
+		ballArray.balls[i] = {
+			"dx": ballspeed + Math.random(),
+			"dy": -(ballspeed + Math.random()),
+			'x': (playerSprite.x + 20),
+			'y': (playerSprite.y + 15)
+		}
+		console.log(ballArray)
+	}
 }
 makeBall();
 
 function keyHandler(e) {
-  var key_state = (event.type == "keydown") ? true : false;
+	var key_state = (event.type == "keydown") ? true : false;
 
-  //Player One
-  if (e.keyCode == 37)
-    controlState.left = key_state;
-  else if (e.keyCode == 38)
-    controlState.up = key_state
-  else if (e.keyCode == 39)
-    controlState.right = key_state;
-  else if (e.keyCode == 40)
-    controlState.down = key_state;
-  else if (e.keyCode == 32)
-    controlState.shoot = key_state;
+	//Player One
+	if (e.keyCode == 37)
+		controlState.left = key_state;
+	else if (e.keyCode == 38)
+		controlState.up = key_state
+	else if (e.keyCode == 39)
+		controlState.right = key_state;
+	else if (e.keyCode == 40)
+		controlState.down = key_state;
+	else if (e.keyCode == 32)
+		controlState.shoot = key_state;
 
-  //Player2
-  if (e.keyCode == 65)
-    controlState.aKey = key_state;
-  else if (e.keyCode == 87)
-    controlState.wKey = key_state
-  else if (e.keyCode == 68)
-    controlState.dKey = key_state;
-  else if (e.keyCode == 83)
-    controlState.sKey = key_state;
-  else if (e.keyCode == 32)
-    controlState.shoot = key_state;
-
-
-    shoot();
-}
-
-
-function ballSpeed() {
-  for (let i = 0; i < ballnumber; i++) {
-     ballArray.balls[i].x += ballArray.balls[i].dx;
-   //  ballArray.balls[i].y += ballArray.balls[i].dy;
-  }
-}
-
-function drawBall() {
-  for (let i = 0; i < ballnumber; i++) {
-      gameWindow.beginPath();
-      gameWindow.arc(ballArray.balls[i].x, ballArray.balls[i].y, ballRadius, 0, Math.PI * 2);
-      gameWindow.fillStyle = "#0095DD";
-      gameWindow.fill();
-      gameWindow.stroke();
-      gameWindow.closePath();
-  }
+	//Player2
+	if (e.keyCode == 65)
+		controlState.aKey = key_state;
+	else if (e.keyCode == 87)
+		controlState.wKey = key_state
+	else if (e.keyCode == 68)
+		controlState.dKey = key_state;
+	else if (e.keyCode == 83)
+		controlState.sKey = key_state;
+	else if (e.keyCode == 32) {
+		controlState.shoot = key_state;
+	}
+	if (!gunReloading)
+		shoot();
 }
 
 function drawFrame() {
 
-  physics();
+	physics();
 
-  boundaries();
+	boundaries();
 
-  duck();
+	duck();
 
-  drawBox();
+	drawBackDrop();
 
-  drawLine();
+	drawBox();
 
-  drawBall();
+	drawLine();
 
-  ballSpeed();
+	drawBall();
 
-  // call update when the browser is ready to draw again
-  window.requestAnimationFrame(drawFrame);
+	ballSpeed();
+
+	// call update when the browser is ready to draw again
+	window.requestAnimationFrame(drawFrame);
 };
 drawFrame();
 
-
-function shoot (){
-  if (controlState.shoot && !gunReloading){
-    ballnumber ++
-    makeBall();
-    gunReloading = true;
-    
-  }
-  controlState.shoot = false;
-  if (gunReloading){
-  setTimeout(function(){
-   gunReloading = false;
-  }, 700);
-}
+function shoot() {
+	if (controlState.shoot && !gunReloading) {
+		ballnumber++
+		makeBall();
+		gunReloading = true;
+	}
+	//  controlState.shoot = false;
+	if (gunReloading) {
+		setTimeout(function() {
+			gunReloading = false;
+		}, 700);
+	}
 }
 
 function duck() {
-  if (controlState.down) {
-    boxSize = duckHeight;
-    playerSprite.height = boxSize;
-    //rectangle.y = boxheight;
-  } else {
-    boxSize = duckHeight * 2;
-    playerSprite.height = boxSize
-    //rectangle.height = boxSize;
-  }
+	if (controlState.down) {
+		boxSize = duckHeight;
+		playerSprite.height = boxSize;
+	} else {
+		boxSize = duckHeight * 2;
+		playerSprite.height = boxSize
+	}
 }
 
 function boundaries() {
-  // if rectangle is going off the left of the screen
-  if (playerSprite.x < -boxSize)
-    playerSprite.x = windowWidth;
-  else if (playerSprite.x > windowWidth) // if rectangle goes past right boundary
-    playerSprite.x = -boxSize;
+	// if player is going off the left of the screen
+	if (playerSprite.x < -boxSize)
+		playerSprite.x = windowWidth;
+	// if player goes past right boundary
+	else if (playerSprite.x > windowWidth)
+		playerSprite.x = -boxSize;
 }
 
 function physics() {
-  if (controlState.up && playerSprite.jumping == false) {
-    playerSprite.y_velocity -= 25;
-    playerSprite.jumping = true;
-  }
+	if (controlState.up && playerSprite.jumping == false) {
+		playerSprite.y_velocity -= 25;
+		playerSprite.jumping = true;
+	}
 
-  if (controlState.left)
-    playerSprite.x_velocity -= 0.5;
+	if (controlState.left)
+		playerSprite.x_velocity -= 0.5;
 
-  if (controlState.right)
-    playerSprite.x_velocity += 0.5;
+	if (controlState.right)
+		playerSprite.x_velocity += 0.5;
 
-  // gravity
-  playerSprite.y_velocity += 1.2;
-  playerSprite.x += playerSprite.x_velocity;
-  playerSprite.y += playerSprite.y_velocity;
+	// gravity
+	playerSprite.y_velocity += 1.2;
+	playerSprite.x += playerSprite.x_velocity;
+	playerSprite.y += playerSprite.y_velocity;
 
-  // friction
-  playerSprite.x_velocity *= 0.9;
-  playerSprite.y_velocity *= 0.9;
+	// friction
+	playerSprite.x_velocity *= 0.9;
+	playerSprite.y_velocity *= 0.9;
 
-  // if rectangle is falling below floor line
-  if (playerSprite.y > windowHeight - groundHeight - boxSize) {
-    playerSprite.jumping = false;
-    playerSprite.y = windowHeight - groundHeight - boxSize;
-    playerSprite.y_velocity = 0;
-  }
+	// if rectangle is falling below floor line
+	if (playerSprite.y > windowHeight - groundHeight - boxSize) {
+		playerSprite.jumping = false;
+		playerSprite.y = windowHeight - groundHeight - boxSize;
+		playerSprite.y_velocity = 0;
+	}
+}
+
+function ballSpeed() {
+	for (let i = 0; i < ballnumber; i++) {
+		ballArray.balls[i].x += ballArray.balls[i].dx;
+		//  ballArray.balls[i].y += ballArray.balls[i].dy;  //move ball up and down / Y-axis
+	}
+}
+
+function drawBackDrop() {
+	var windowGradient = gameWindow.createLinearGradient(0, 200, 0, 0);
+	windowGradient.addColorStop(0, "black");
+	windowGradient.addColorStop(1, "gray");
+
+	gameWindow.fillStyle = windowGradient;
+}
+
+function drawBall() {
+	for (let i = 0; i < ballnumber; i++) {
+		gameWindow.beginPath();
+		gameWindow.arc(ballArray.balls[i].x, ballArray.balls[i].y, ballRadius, 0, Math.PI * 2);
+		gameWindow.fillStyle = "#0095DD";
+		gameWindow.fill();
+		gameWindow.stroke();
+		gameWindow.closePath();
+	}
 }
 
 function drawBox() {
-
-  var windowGradient=gameWindow.createLinearGradient(0,200,0,0);
-  windowGradient.addColorStop(0,"black");
-  windowGradient.addColorStop(1,"gray");  
-
-  gameWindow.fillStyle = windowGradient;
-  gameWindow.fillRect(0, 0, windowWidth, windowHeight); // x, y, width, height
-  gameWindow.fillStyle = "#ff0000"; // hex for red
-  gameWindow.beginPath();
-  gameWindow.rect(playerSprite.x, playerSprite.y, playerSprite.width, playerSprite.height);
-  gameWindow.fill();
+	gameWindow.fillRect(0, 0, windowWidth, windowHeight); // x, y, width, height
+	gameWindow.fillStyle = "#ff0000"; // hex for red
+	gameWindow.beginPath();
+	gameWindow.rect(playerSprite.x, playerSprite.y, playerSprite.width, playerSprite.height);
+	gameWindow.fill();
 }
 
 function drawLine() {
-  gameWindow.strokeStyle = "#202830";
-  gameWindow.lineWidth = 4;
-  gameWindow.beginPath();
-  gameWindow.moveTo(0, windowHeight - groundHeight);
-  gameWindow.lineTo(windowWidth, windowHeight - groundHeight);
-  gameWindow.stroke();
+	gameWindow.strokeStyle = "#202830";
+	gameWindow.lineWidth = 4;
+	gameWindow.beginPath();
+	gameWindow.moveTo(0, windowHeight - groundHeight);
+	gameWindow.lineTo(windowWidth, windowHeight - groundHeight);
+	gameWindow.stroke();
 }

@@ -4,11 +4,9 @@
 }
 
 canvas { 
-    background: radial-gradient(
-        circle at top,
-        black,
-        grey 90%
-      );
+    background: url(./game3.jpg);
+    background-size: cover;
+    background-position-y: -50px;
     display: block;
     margin: 0 auto;
 }

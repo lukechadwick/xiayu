@@ -18,6 +18,9 @@ let windowHeight = 300;
 let windowWidth = 700;
 let groundHeight = 25;
 
+let bulletSpacing = 0
+
+
 //Gun State
 let gunReloading = false;
 
@@ -101,6 +104,8 @@ function keyHandler(e) {
         controlState.down = key_state;
     else if (e.keyCode == 32){
         bulletOrigin = 0;
+        bulletSpacing = 20;
+
         controlState.spaceKey = key_state;
     }
  
@@ -116,6 +121,8 @@ function keyHandler(e) {
         controlState.sKey = key_state;
     else if (e.keyCode == 82) {
         bulletOrigin = 1;
+        bulletSpacing = -60;
+
         controlState.rkey = key_state;
     }
  
@@ -254,8 +261,10 @@ function drawBackDrop() {
 function drawBall() {
     for (let i = 0; i < playerNumber; i++) {
         for (let i = 0; i < ballnumber; i++) {
+
+
             gameWindow.beginPath();
-            gameWindow.arc(bulletArray.bullets[i].x + 20, bulletArray.bullets[i].y, ballRadius, 0, Math.PI * 2);
+            gameWindow.arc(bulletArray.bullets[i].x + bulletSpacing, bulletArray.bullets[i].y, ballRadius, 0, Math.PI * 2);
             gameWindow.fillStyle = "#0095DD";
             gameWindow.fill();
             gameWindow.stroke();
@@ -298,7 +307,8 @@ function ballCollision() {
         for (let j = 0; j < playerNumber; j++) {
             if (bulletArray.bullets[i].x - playerArray.players[j].x < 5 && bulletArray.bullets[i].x - playerArray.players[j].x > 0 &&
                 bulletArray.bullets[i].y - playerArray.players[j].y < 40 && bulletArray.bullets[i].y - playerArray.players[j].y > 0) {
-					console.log('bang')
+                    console.log('bang')
+                    bulletArray.bullets[i].y = bulletArray.bullets[i].y + 200;
             }
         }  
     }

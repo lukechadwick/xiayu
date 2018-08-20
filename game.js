@@ -8,6 +8,7 @@ gameWindow = document.querySelector("canvas").getContext("2d");
 //Player
 let boxSize = 40;
 let duckHeight = boxSize / 2;
+let playerNumber = 2;
 
 //World
 let windowHeight = 200;
@@ -30,6 +31,31 @@ let ballArray = {
 	"balls": []
 }
 
+let playerArray = {
+  "players": []
+}
+
+
+function makePlayer() {
+	for (let i = 0; i < playerNumber; i++) {
+		playerArray.players[i] = {
+      height: boxSize,
+      width: boxSize / 2,
+    
+      jumpState: false,
+    
+      x: windowWidth / 2,
+      y: 0,
+      x_velocity: 0,
+      y_velocity: 0
+		}
+		console.log(playerArray)
+	}
+}
+
+makePlayer();
+
+
 //Draw a square
 playerSprite = {
 	height: boxSize,
@@ -43,17 +69,6 @@ playerSprite = {
 	y_velocity: 0
 };
 
-player2Sprite = {
-	height: boxSize,
-	width: boxSize / 2,
-
-	jumpState: false,
-
-	x: windowWidth / 2,
-	y: 0,
-	x_velocity: 0,
-	y_velocity: 0
-};
 
 controlState = {
 	left: false,
@@ -70,6 +85,8 @@ control2State = {
 	sKey: false,
 	shoot: false
 };
+
+
 
 function makeBall() {
 	for (let i = ballnumber - 1; i < ballnumber; i++) {
@@ -116,6 +133,7 @@ function keyHandler(e) {
 }
 
 function drawFrame() {
+	gameWindow.clearRect(0, 0, windowWidth, windowHeight);
 
 	physics();
 
@@ -123,7 +141,7 @@ function drawFrame() {
 
 	duck();
 
-	drawBackDrop();
+	//drawBackDrop();
 
 	drawBox();
 
@@ -148,7 +166,7 @@ function shoot() {
 	if (gunReloading) {
 		setTimeout(function() {
 			gunReloading = false;
-		}, 700);
+		}, 500);
 	}
 }
 
@@ -208,11 +226,16 @@ function ballSpeed() {
 }
 
 function drawBackDrop() {
+  gameWindow.beginPath();
+
 	var windowGradient = gameWindow.createLinearGradient(0, 200, 0, 0);
 	windowGradient.addColorStop(0, "black");
 	windowGradient.addColorStop(1, "gray");
 
-	gameWindow.fillStyle = windowGradient;
+  
+   gameWindow.fillStyle = windowGradient;
+  // gameWindow.closePath();
+
 }
 
 function drawBall() {
@@ -227,11 +250,14 @@ function drawBall() {
 }
 
 function drawBox() {
-	gameWindow.fillRect(0, 0, windowWidth, windowHeight); // x, y, width, height
-	gameWindow.fillStyle = "#ff0000"; // hex for red
-	gameWindow.beginPath();
-	gameWindow.rect(playerSprite.x, playerSprite.y, playerSprite.width, playerSprite.height);
-	gameWindow.fill();
+  for (let i = 0; i < 1; i++) {
+    gameWindow.beginPath();
+    gameWindow.fillStyle = "#ff0000"; // hex for red
+    gameWindow.rect(playerSprite.x, playerSprite.y, playerSprite.width, playerSprite.height); 
+    gameWindow.fill();
+    gameWindow.closePath();
+
+  }
 }
 
 function drawLine() {

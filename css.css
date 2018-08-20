@@ -5,9 +5,9 @@
 
 canvas { 
     background: radial-gradient(
-        circle at top right,
-        yellow,
-        #f06d06 70%
+        circle at top,
+        black,
+        grey 90%
       );
     display: block;
     margin: 0 auto;

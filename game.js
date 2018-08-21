@@ -36,6 +36,10 @@ let playerArray = {
     "players": []
 }
 
+let playformArray = { 
+    "plat": [{startX:30, endX: 110, startY: 100, endY: 100}]
+}
+
 controlState = {
     left: false,
     right: false,
@@ -58,11 +62,15 @@ function drawFrame() {
 
     //drawBackDrop();
 
+    drawPlatform();
+
     bulletCollision();
+
+    drawHealthBar();
 
     drawBox();
 
-    drawLine();
+    drawFloor();
 
     drawBullet();
 
@@ -74,7 +82,6 @@ function drawFrame() {
     window.requestAnimationFrame(drawFrame);
 };
 drawFrame();
-
 
 function makePlayer() {
     for (let i = 0; i < playerNumber; i++) {
@@ -88,7 +95,8 @@ function makePlayer() {
             y: 0,
             x_velocity: 0,
             y_velocity: 0,
-            reloading: false
+            reloading: false,
+            health: 100
         }
         console.log(playerArray)
     }
@@ -194,7 +202,7 @@ function physics() {
 
         if (controlState.dKey)
             playerArray.players[1].x_velocity += 0.2;
-
+ 
         // gravity
         playerArray.players[i].y_velocity += 1.2;
         playerArray.players[i].x += playerArray.players[i].x_velocity;
@@ -204,11 +212,15 @@ function physics() {
         playerArray.players[i].x_velocity *= 0.9;
         playerArray.players[i].y_velocity *= 0.9;
 
+        //If player is dead take away collision with floor
+        if (playerArray.players[i].health > 1){
         // if rectangle is falling below floor line
-        if (playerArray.players[i].y > windowHeight - groundHeight - playerArray.players[i].height) {
-            playerArray.players[i].jumping = false;
-            playerArray.players[i].y = windowHeight - groundHeight - playerArray.players[i].height;
-            playerArray.players[i].y_velocity = 0;
+            if (playerArray.players[i].y > windowHeight - groundHeight - playerArray.players[i].height) {
+                playerArray.players[i].jumping = false;
+                playerArray.players[i].y = windowHeight - groundHeight - playerArray.players[i].height;
+                    
+                playerArray.players[i].y_velocity = 0;
+            }
         }
     }
 }
@@ -218,8 +230,13 @@ function ballCollision() {
         for (let j = 0; j < playerNumber; j++) {
             if (bulletArray.bullets[i].x - playerArray.players[j].x < 5 && bulletArray.bullets[i].x - playerArray.players[j].x > 0 &&
                 bulletArray.bullets[i].y - playerArray.players[j].y < 40 && bulletArray.bullets[i].y - playerArray.players[j].y > 0) {
-                console.log('bang')
+                
+                
+                console.log('Player ' + j + " Hit")
                 bulletArray.bullets[i].y = bulletArray.bullets[i].y + 200;
+                
+                playerArray.players[j].health -= 10;
+                console.log(playerArray.players[j].health)
             }
         }
     }
@@ -300,11 +317,37 @@ function drawBox() {
     }
 }
 
-function drawLine() {
-    //   gameWindow.strokeStyle = "#202830";
-    //   gameWindow.lineWidth = 4;
+function drawFloor() {
     gameWindow.beginPath();
     gameWindow.moveTo(0, windowHeight - groundHeight);
     gameWindow.lineTo(windowWidth, windowHeight - groundHeight);
-    //   gameWindow.stroke();
+}
+
+function drawPlatform() {
+    gameWindow.strokeStyle = "black";
+    gameWindow.beginPath();
+    gameWindow.moveTo(playformArray.plat[0].startX,playformArray.plat[0].startY);
+    gameWindow.lineTo(playformArray.plat[0].endX,playformArray.plat[0].endY);
+    gameWindow.stroke();
+
+}
+
+function drawHealthBar() {
+    for (let j = 0; j < playerNumber; j++) {
+        //Health Colors
+        if (playerArray.players[j].health < 21)
+            gameWindow.fillStyle = "red"
+        else if (playerArray.players[j].health < 51)
+            gameWindow.fillStyle = "orange"
+        else
+            gameWindow.fillStyle = "green"
+        
+        //Draw Health Bar
+        gameWindow.beginPath();
+        gameWindow.rect(playerArray.players[j].x -5 , playerArray.players[j].y -15 , playerArray.players[j].health / 3.3, 5);
+        gameWindow.fill();
+        gameWindow.strokeStyle = "black";
+        gameWindow.stroke();
+        gameWindow.closePath();
+    }
 }

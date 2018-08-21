@@ -6,12 +6,12 @@ document.addEventListener("keyup", keyHandler);
 gameWindow = document.querySelector("canvas").getContext("2d");
 
 //Player
-let boxSize = 40;
-let duckHeight = boxSize / 2;
+let playerSize = 40;
+let duckHeight = playerSize / 2;
 let playerNumber = 2;
-let boxSize2 = 40;
 
-let bulletOrigin = 0;
+let object1 = {}
+let object2 = {}
 
 //World
 let windowHeight = 300;
@@ -20,13 +20,14 @@ let groundHeight = 25;
 
 //Ball
 var ballRadius = 5;
-let ballnumber = 1;
-let ballspeed = 5;
+let ballsInWorld = 1;
+let ballVelocity = 5;
 
 //Window Size
 gameWindow.canvas.height = windowHeight;
 gameWindow.canvas.width = windowWidth;
 
+//Arrays
 let bulletArray = {
     "bullets": []
 }
@@ -35,11 +36,51 @@ let playerArray = {
     "players": []
 }
 
+controlState = {
+    left: false,
+    right: false,
+    up: false,
+    down: false,
+    shoot: false
+};
+
+makePlayer();
+createBullet(0);
+
+function drawFrame() {
+    gameWindow.clearRect(0, 0, windowWidth, windowHeight);
+
+    physics();
+
+    boundaries();
+
+    duck();
+
+    //drawBackDrop();
+
+    bulletCollision();
+
+    drawBox();
+
+    drawLine();
+
+    drawBullet();
+
+    ballCollision()
+
+    ballSpeed();
+
+    // call update when the browser is ready to draw again
+    window.requestAnimationFrame(drawFrame);
+};
+drawFrame();
+
+
 function makePlayer() {
     for (let i = 0; i < playerNumber; i++) {
         playerArray.players[i] = {
-            height: boxSize,
-            width: boxSize / 2,
+            height: playerSize,
+            width: playerSize / 2,
 
             jumpState: false,
 
@@ -52,46 +93,6 @@ function makePlayer() {
         console.log(playerArray)
     }
 }
-
-makePlayer();
-
-controlState = {
-    left: false,
-    right: false,
-    up: false,
-    down: false,
-    shoot: false
-};
-
-control2State = {
-    aKey: false,
-    dKey: false,
-    wKey: false,
-    sKey: false,
-    shoot: false
-};
-
-function drawBullet(num) {
-    for (let i = ballnumber - 1; i < ballnumber; i++) {
-        let dxMod, bulletOffset;
-        if (num === 0) {
-            dxMod = ballspeed + Math.random(),
-                bulletOffset = 40;
-        }
-        if (num === 1) {
-            dxMod = -ballspeed + Math.random(),
-                bulletOffset = -20;
-        }
-        bulletArray.bullets[i] = {
-            "dx": dxMod,
-            "dy": -ballspeed + Math.random(),
-            'x': (playerArray.players[num].x + bulletOffset),
-            'y': (playerArray.players[num].y + 15)
-        }
-        console.log(bulletArray)
-    }
-}
-drawBullet(0);
 
 function keyHandler(e) {
     var key_state = (event.type == "keydown") ? true : false;
@@ -106,11 +107,10 @@ function keyHandler(e) {
     else if (e.keyCode == 83)
         controlState.sKey = key_state;
     else if (e.keyCode == 16) {
-
         controlState.shiftKey = key_state;
 
-        if (!playerArray.players[0].reloading && (controlState.shiftKey))
-            shoot(0);
+    if (!playerArray.players[0].reloading && (controlState.shiftKey))
+        shoot(0);
     }
 
     //Player Two
@@ -123,46 +123,17 @@ function keyHandler(e) {
     else if (e.keyCode == 40)
         controlState.down = key_state;
     else if (e.keyCode == 32) {
-
         controlState.spaceKey = key_state;
 
-        if (!playerArray.players[1].reloading && (controlState.spaceKey))
-            shoot(1);
+    if (!playerArray.players[1].reloading && (controlState.spaceKey))
+        shoot(1);
     }
 }
 
-function drawFrame() {
-    gameWindow.clearRect(0, 0, windowWidth, windowHeight);
-
-    physics();
-
-    boundaries();
-
-    duck();
-
-    //drawBackDrop();
-
-    drawBox();
-
-    drawLine();
-
-    drawBall();
-
-    ballCollision()
-
-    ballSpeed();
-
-    // call update when the browser is ready to draw again
-    window.requestAnimationFrame(drawFrame);
-};
-drawFrame();
-
-
-
 function shoot(num) {
     if (!playerArray.players[num].reloading) {
-        ballnumber++
-        drawBullet(num);
+        ballsInWorld++
+        createBullet(num);
         playerArray.players[num].reloading = true;
     }
     if (playerArray.players[num].reloading) {
@@ -190,7 +161,7 @@ function duck() {
 function boundaries() {
     for (let i = 0; i < playerNumber; i++) {
         // if player is going off the left of the screen
-        if (playerArray.players[i].x < -boxSize) {
+        if (playerArray.players[i].x < -playerSize) {
             playerArray.players[i].x = -10;
             playerArray.players[i].x_velocity = 0;
         }
@@ -242,8 +213,33 @@ function physics() {
     }
 }
 
+function ballCollision() {
+    for (let i = 0; i < ballsInWorld; i++) {
+        for (let j = 0; j < playerNumber; j++) {
+            if (bulletArray.bullets[i].x - playerArray.players[j].x < 5 && bulletArray.bullets[i].x - playerArray.players[j].x > 0 &&
+                bulletArray.bullets[i].y - playerArray.players[j].y < 40 && bulletArray.bullets[i].y - playerArray.players[j].y > 0) {
+                console.log('bang')
+                bulletArray.bullets[i].y = bulletArray.bullets[i].y + 200;
+            }
+        }
+    }
+}
+
+function bulletCollision() {
+    for (let i = 0; i < ballsInWorld; i++) {
+        for (let j = 0; j < ballsInWorld; j++) {
+            if (bulletArray.bullets[i].x - bulletArray.bullets[j].x < 5 && bulletArray.bullets[i].x - bulletArray.bullets[j].x > 0 &&
+                bulletArray.bullets[i].y - bulletArray.bullets[j].y < 5 && bulletArray.bullets[i].y - bulletArray.bullets[j].y > 0) {
+                  //  bulletArray.bullets[i].dx = -bulletArray.bullets[i].dx;
+                  //  bulletArray.bullets[j].dy = -bulletArray.bullets[j].dy;
+                    console.log('boing!')
+            }
+        }
+    }
+}
+
 function ballSpeed() {
-    for (let i = 0; i < ballnumber; i++) {
+    for (let i = 0; i < ballsInWorld; i++) {
         bulletArray.bullets[i].x += bulletArray.bullets[i].dx;
         //  bulletArray.bullets[i].y += bulletArray.bullets[i].dy;  //move ball up and down / Y-axis
     }
@@ -253,9 +249,30 @@ function drawBackDrop() {
 
 }
 
-function drawBall() {
+function createBullet(num) {
+    for (let i = ballsInWorld - 1; i < ballsInWorld; i++) {
+        let dxMod, bulletOffset;
+        if (num === 0) {
+            dxMod = ballVelocity + Math.random(),
+                bulletOffset = 40;
+        }
+        if (num === 1) {
+            dxMod = -ballVelocity + Math.random(),
+                bulletOffset = -20;
+        }
+        bulletArray.bullets[i] = {
+            "dx": dxMod,
+            "dy": -ballVelocity + Math.random(),
+            'x': (playerArray.players[num].x + bulletOffset),
+            'y': (playerArray.players[num].y + 15)
+        }
+        console.log(bulletArray)
+    }
+}
+
+function drawBullet() {
     for (let i = 0; i < playerNumber; i++) {
-        for (let i = 0; i < ballnumber; i++) {
+        for (let i = 0; i < ballsInWorld; i++) {
             gameWindow.beginPath();
             gameWindow.arc(bulletArray.bullets[i].x, bulletArray.bullets[i].y, ballRadius, 0, Math.PI * 2);
             gameWindow.fillStyle = "#0095DD";
@@ -290,16 +307,4 @@ function drawLine() {
     gameWindow.moveTo(0, windowHeight - groundHeight);
     gameWindow.lineTo(windowWidth, windowHeight - groundHeight);
     //   gameWindow.stroke();
-}
-
-function ballCollision() {
-    for (let i = 0; i < ballnumber; i++) {
-        for (let j = 0; j < playerNumber; j++) {
-            if (bulletArray.bullets[i].x - playerArray.players[j].x < 5 && bulletArray.bullets[i].x - playerArray.players[j].x > 0 &&
-                bulletArray.bullets[i].y - playerArray.players[j].y < 40 && bulletArray.bullets[i].y - playerArray.players[j].y > 0) {
-                console.log('bang')
-                bulletArray.bullets[i].y = bulletArray.bullets[i].y + 200;
-            }
-        }
-    }
 }

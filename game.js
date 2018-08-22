@@ -10,18 +10,15 @@ let playerSize = 40;
 let duckHeight = playerSize / 2;
 let playerNumber = 2;
 
-let object1 = {}
-let object2 = {}
-
 //World
 let windowHeight = 300;
 let windowWidth = 700;
 let groundHeight = 25;
 
 //Ball
-var ballRadius = 5;
-let ballsInWorld = 1;
-let ballVelocity = 5;
+var bulletRadius = 5;
+let bulletsInWorld = 1;
+let bulletVelocity = 5;
 
 //Window Size
 gameWindow.canvas.height = windowHeight;
@@ -29,7 +26,7 @@ gameWindow.canvas.width = windowWidth;
 
 //Arrays
 let bulletArray = {
-    "bullets": []
+    "bullets": [0]
 }
 
 let playerArray = {
@@ -37,7 +34,12 @@ let playerArray = {
 }
 
 let playformArray = { 
-    "plat": [{startX:30, endX: 110, startY: 100, endY: 100}]
+    "plat": [
+        {startX:30, endX: 110, height: 210},
+        {startX:210, endX: 250, height: 220},
+        {startX:600, endX: 650, height: 240},
+        {startX:300, endX: 330, height: 230},
+    ]
 }
 
 controlState = {
@@ -49,7 +51,6 @@ controlState = {
 };
 
 makePlayer();
-createBullet(0);
 
 function drawFrame() {
     gameWindow.clearRect(0, 0, windowWidth, windowHeight);
@@ -70,11 +71,11 @@ function drawFrame() {
 
     drawBox();
 
-    drawFloor();
+    //drawFloor();
 
     drawBullet();
 
-    ballCollision()
+    hitDetection()
 
     ballSpeed();
 
@@ -140,7 +141,7 @@ function keyHandler(e) {
 
 function shoot(num) {
     if (!playerArray.players[num].reloading) {
-        ballsInWorld++
+        bulletsInWorld++
         createBullet(num);
         playerArray.players[num].reloading = true;
     }
@@ -221,16 +222,28 @@ function physics() {
                     
                 playerArray.players[i].y_velocity = 0;
             }
+
+            //Playform collision
+            for (let j = 0; j < playformArray.plat.length; j++) {
+                if (playerArray.players[i].y >  playformArray.plat[j].height - playerArray.players[i].height 
+                    && playerArray.players[i].y <  playformArray.plat[j].height
+                    && playerArray.players[i].x > playformArray.plat[j].startX -20 
+                    && playerArray.players[i].x < playformArray.plat[j].endX) {
+                    playerArray.players[i].jumping = false;
+                    
+                    playerArray.players[i].y = playformArray.plat[j].height - playerArray.players[i].height;
+                    playerArray.players[i].y_velocity = 0;
+                }                 
+            }
         }
     }
 }
 
-function ballCollision() {
-    for (let i = 0; i < ballsInWorld; i++) {
+function hitDetection() {
+    for (let i = 0; i < bulletsInWorld; i++) {
         for (let j = 0; j < playerNumber; j++) {
             if (bulletArray.bullets[i].x - playerArray.players[j].x < 5 && bulletArray.bullets[i].x - playerArray.players[j].x > 0 &&
                 bulletArray.bullets[i].y - playerArray.players[j].y < 40 && bulletArray.bullets[i].y - playerArray.players[j].y > 0) {
-                
                 
                 console.log('Player ' + j + " Hit")
                 bulletArray.bullets[i].y = bulletArray.bullets[i].y + 200;
@@ -243,8 +256,8 @@ function ballCollision() {
 }
 
 function bulletCollision() {
-    for (let i = 0; i < ballsInWorld; i++) {
-        for (let j = 0; j < ballsInWorld; j++) {
+    for (let i = 0; i < bulletsInWorld; i++) {
+        for (let j = 0; j < bulletsInWorld; j++) {
             if (bulletArray.bullets[i].x - bulletArray.bullets[j].x < 5 && bulletArray.bullets[i].x - bulletArray.bullets[j].x > 0 &&
                 bulletArray.bullets[i].y - bulletArray.bullets[j].y < 5 && bulletArray.bullets[i].y - bulletArray.bullets[j].y > 0) {
                   //  bulletArray.bullets[i].dx = -bulletArray.bullets[i].dx;
@@ -256,7 +269,7 @@ function bulletCollision() {
 }
 
 function ballSpeed() {
-    for (let i = 0; i < ballsInWorld; i++) {
+    for (let i = 0; i < bulletsInWorld; i++) {
         bulletArray.bullets[i].x += bulletArray.bullets[i].dx;
         //  bulletArray.bullets[i].y += bulletArray.bullets[i].dy;  //move ball up and down / Y-axis
     }
@@ -267,19 +280,19 @@ function drawBackDrop() {
 }
 
 function createBullet(num) {
-    for (let i = ballsInWorld - 1; i < ballsInWorld; i++) {
+    for (let i = bulletsInWorld - 1; i < bulletsInWorld; i++) {
         let dxMod, bulletOffset;
         if (num === 0) {
-            dxMod = ballVelocity + Math.random(),
+            dxMod = bulletVelocity + Math.random(),
                 bulletOffset = 40;
         }
         if (num === 1) {
-            dxMod = -ballVelocity + Math.random(),
+            dxMod = -bulletVelocity + Math.random(),
                 bulletOffset = -20;
         }
         bulletArray.bullets[i] = {
             "dx": dxMod,
-            "dy": -ballVelocity + Math.random(),
+            "dy": -bulletVelocity + Math.random(),
             'x': (playerArray.players[num].x + bulletOffset),
             'y': (playerArray.players[num].y + 15)
         }
@@ -289,11 +302,12 @@ function createBullet(num) {
 
 function drawBullet() {
     for (let i = 0; i < playerNumber; i++) {
-        for (let i = 0; i < ballsInWorld; i++) {
+        for (let i = 0; i < bulletsInWorld; i++) {
             gameWindow.beginPath();
-            gameWindow.arc(bulletArray.bullets[i].x, bulletArray.bullets[i].y, ballRadius, 0, Math.PI * 2);
+            gameWindow.arc(bulletArray.bullets[i].x, bulletArray.bullets[i].y, bulletRadius, 0, Math.PI * 2);
             gameWindow.fillStyle = "#0095DD";
             gameWindow.fill();
+            gameWindow.strokeStyle = "black";
             gameWindow.stroke();
             gameWindow.closePath();
         }
@@ -317,23 +331,25 @@ function drawBox() {
     }
 }
 
-function drawFloor() {
-    gameWindow.beginPath();
-    gameWindow.moveTo(0, windowHeight - groundHeight);
-    gameWindow.lineTo(windowWidth, windowHeight - groundHeight);
-}
+// function drawFloor() {
+//     gameWindow.beginPath();
+//     gameWindow.moveTo(0, windowHeight - groundHeight);
+//     gameWindow.lineTo(windowWidth, windowHeight - groundHeight);
+// }
 
 function drawPlatform() {
-    gameWindow.strokeStyle = "black";
-    gameWindow.beginPath();
-    gameWindow.moveTo(playformArray.plat[0].startX,playformArray.plat[0].startY);
-    gameWindow.lineTo(playformArray.plat[0].endX,playformArray.plat[0].endY);
-    gameWindow.stroke();
-
+    for (let i = 0; i < playformArray.plat.length; i++) {
+        gameWindow.strokeStyle = "black";
+        gameWindow.beginPath();
+        gameWindow.moveTo(playformArray.plat[i].startX,playformArray.plat[i].height);
+        gameWindow.lineTo(playformArray.plat[i].endX,playformArray.plat[i].height);
+        gameWindow.stroke();
+    } 
 }
 
 function drawHealthBar() {
     for (let j = 0; j < playerNumber; j++) {
+        
         //Health Colors
         if (playerArray.players[j].health < 21)
             gameWindow.fillStyle = "red"

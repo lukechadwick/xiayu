@@ -9,6 +9,7 @@ gameWindow = document.querySelector("canvas").getContext("2d");
 let playerSize = 40;
 let duckHeight = playerSize / 2;
 let playerNumber = 2;
+let gunoffset = 0;
 
 //World
 let windowHeight = 300;
@@ -113,7 +114,8 @@ function makePlayer() {
             x_velocity: 0,
             y_velocity: 0,
             reloading: false,
-            health: 100
+            health: 100,
+            facingLeft: false
         }
         console.log(playerArray)
     }
@@ -122,13 +124,17 @@ function makePlayer() {
 function keyHandler(e) {
     var key_state = (event.type == "keydown") ? true : false;
 
-    //Player One
-    if (e.keyCode == 65)
+    //Player Two
+    if (e.keyCode == 65){
         controlState.aKey = key_state;
+        playerArray.players[1].facingLeft = true;
+    }
     else if (e.keyCode == 87)
         controlState.wKey = key_state
-    else if (e.keyCode == 68)
+    else if (e.keyCode == 68){
         controlState.dKey = key_state;
+        playerArray.players[1].facingLeft = false;
+    }
     else if (e.keyCode == 83)
         controlState.sKey = key_state;
     else if (e.keyCode == 16) {
@@ -138,13 +144,18 @@ function keyHandler(e) {
         shoot(0);
     }
 
-    //Player Two
-    if (e.keyCode == 37)
+    //Player One
+    if (e.keyCode == 37){
         controlState.left = key_state;
+        playerArray.players[0].facingLeft = true;
+    }
     else if (e.keyCode == 38)
         controlState.up = key_state
     else if (e.keyCode == 39)
+    {
         controlState.right = key_state;
+        playerArray.players[0].facingLeft = false;
+    }
     else if (e.keyCode == 40)
         controlState.down = key_state;
     else if (e.keyCode == 32) {
@@ -344,7 +355,6 @@ function drawPlayer() {
         gameWindow.fill();
         gameWindow.strokeStyle = "black";
         gameWindow.stroke();
-
         gameWindow.closePath();
 
 
@@ -373,15 +383,30 @@ function drawPlayer() {
         gameWindow.arc(playerArray.players[i].x + 10, playerArray.players[i].y + 15,3,0, emotion);
         gameWindow.stroke();
 
-
+        if (!playerArray.players[i].facingLeft)
+        {
         //Gun
         gameWindow.beginPath();
-        gameWindow.moveTo(playerArray.players[i].x + 20, playerArray.players[i].y + 20);
-        gameWindow.lineTo(playerArray.players[i].x + 20,playerArray.players[i].y + 25);
-        gameWindow.lineTo(playerArray.players[i].x + 25,playerArray.players[i].y + 20);
-        gameWindow.lineTo(playerArray.players[i].x + 30,playerArray.players[i].y + 20);
-        gameWindow.lineTo(playerArray.players[i].x + 20,playerArray.players[i].y + 20);
+        gameWindow.moveTo(playerArray.players[i].x + 20, playerArray.players[i].y + 15);
+        gameWindow.lineTo(playerArray.players[i].x + 20, playerArray.players[i].y + 20);
+        gameWindow.lineTo(playerArray.players[i].x + 25, playerArray.players[i].y + 15);
+        gameWindow.lineTo(playerArray.players[i].x + 30, playerArray.players[i].y + 15);
+        gameWindow.lineTo(playerArray.players[i].x + 20, playerArray.players[i].y + 15);
         gameWindow.stroke();
+        }
+
+        if (playerArray.players[i].facingLeft)
+        {
+        //left gun
+        gameWindow.beginPath();
+        gameWindow.moveTo(playerArray.players[i].x - 20 + 20, playerArray.players[i].y + 15);
+        gameWindow.lineTo(playerArray.players[i].x - 20 + 20, playerArray.players[i].y + 20);
+        gameWindow.lineTo(playerArray.players[i].x - 25 + 20, playerArray.players[i].y + 15);
+        gameWindow.lineTo(playerArray.players[i].x - 30 + 20, playerArray.players[i].y + 15);
+        gameWindow.lineTo(playerArray.players[i].x - 20 + 20, playerArray.players[i].y + 15);
+        gameWindow.stroke();
+        }
+        
     }
 }
 
@@ -410,7 +435,7 @@ function drawHealthBar() {
         else if (playerArray.players[j].health < 51)
             gameWindow.fillStyle = "orange"
         else
-            gameWindow.fillStyle = "green"
+            gameWindow.fillStyle = "#2aff00"
         
         //Draw Health Bar
         gameWindow.beginPath();

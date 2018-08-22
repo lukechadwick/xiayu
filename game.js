@@ -306,16 +306,15 @@ function drawBackDrop() {
 
 }
 
-
-
 function createBullet(num) {
     for (let i = bulletsInWorld - 1; i < bulletsInWorld; i++) {
         let dxMod, bulletOffset;
-        if (num === 0) {
+
+        if (playerArray.players[num].facingLeft == 0) {
             dxMod = bulletVelocity + Math.random(),
                 bulletOffset = 40;
         }
-        if (num === 1) {
+        if (playerArray.players[num].facingLeft == 1) {
             dxMod = -bulletVelocity + Math.random(),
                 bulletOffset = -20;
         }

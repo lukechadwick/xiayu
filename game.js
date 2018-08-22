@@ -35,12 +35,14 @@ let playerArray = {
 
 let playformArray = { 
     "plat": [
-        {startX:30, endX: 110, height: 210},
-        {startX:210, endX: 250, height: 220},
-        {startX:600, endX: 650, height: 240},
-        {startX:300, endX: 330, height: 230},
+        // {startX:30, endX: 110, height: 210},
+        // {startX:210, endX: 250, height: 220},
+        // {startX:600, endX: 650, height: 240},
+        // {startX:300, endX: 330, height: 230},
     ]
 }
+
+
 
 controlState = {
     left: false,
@@ -49,7 +51,21 @@ controlState = {
     down: false,
     shoot: false
 };
+//let curP = 0;
 
+
+function generatePlatform() {
+    for (let i = 0; i < 7; i++) {
+        let randomPoint = Math.random() * (i*100 - i*100) + i*100
+        playformArray.plat[i] = {
+            startX: randomPoint,
+            endX: randomPoint + 50,
+            height: Math.random() * (250 - 100) + 100,
+        }
+        console.log(playformArray)
+    }
+}
+generatePlatform();
 makePlayer();
 
 function drawFrame() {
@@ -69,7 +85,7 @@ function drawFrame() {
 
     drawHealthBar();
 
-    drawBox();
+    drawPlayer();
 
     //drawFloor();
 
@@ -224,7 +240,7 @@ function physics() {
             }
 
             //Playform collision
-            for (let j = 0; j < playformArray.plat.length; j++) {
+            for (let j = 0; j < 7; j++) {
                 if (playerArray.players[i].y >  playformArray.plat[j].height - playerArray.players[i].height 
                     && playerArray.players[i].y <  playformArray.plat[j].height
                     && playerArray.players[i].x > playformArray.plat[j].startX -20 
@@ -279,6 +295,8 @@ function drawBackDrop() {
 
 }
 
+
+
 function createBullet(num) {
     for (let i = bulletsInWorld - 1; i < bulletsInWorld; i++) {
         let dxMod, bulletOffset;
@@ -314,7 +332,7 @@ function drawBullet() {
     }
 }
 
-function drawBox() {
+function drawPlayer() {
     for (let i = 0; i < playerNumber; i++) {
         gameWindow.beginPath();
         gameWindow.fillStyle = "red"; // hex for red
@@ -328,6 +346,42 @@ function drawBox() {
         gameWindow.stroke();
 
         gameWindow.closePath();
+
+
+
+        //Draw Eye
+        gameWindow.beginPath();
+        gameWindow.arc(playerArray.players[i].x + 5, playerArray.players[i].y + 5,2,0,2*Math.PI);
+        gameWindow.stroke();
+        gameWindow.beginPath();
+        gameWindow.arc(playerArray.players[i].x + 15, playerArray.players[i].y + 5,2,0,2*Math.PI);
+        gameWindow.stroke();
+    
+        //Nose
+        gameWindow.beginPath();
+        gameWindow.arc(playerArray.players[i].x + 10, playerArray.players[i].y + 9,1,0,2*Math.PI);
+        gameWindow.stroke();
+
+        //Mouth
+        let emotion = 0;
+
+        if (playerArray.players[i].health < 30)
+            emotion = 2*Math.PI;
+        else
+            emotion = Math.PI
+        gameWindow.beginPath();
+        gameWindow.arc(playerArray.players[i].x + 10, playerArray.players[i].y + 15,3,0, emotion);
+        gameWindow.stroke();
+
+
+        //Gun
+        gameWindow.beginPath();
+        gameWindow.moveTo(playerArray.players[i].x + 20, playerArray.players[i].y + 20);
+        gameWindow.lineTo(playerArray.players[i].x + 20,playerArray.players[i].y + 25);
+        gameWindow.lineTo(playerArray.players[i].x + 25,playerArray.players[i].y + 20);
+        gameWindow.lineTo(playerArray.players[i].x + 30,playerArray.players[i].y + 20);
+        gameWindow.lineTo(playerArray.players[i].x + 20,playerArray.players[i].y + 20);
+        gameWindow.stroke();
     }
 }
 

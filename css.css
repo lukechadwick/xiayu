@@ -3,8 +3,14 @@
     margin: 0;
 }
 
+body {
+    background: url(./background.jpg);
+    background-size: cover;
+
+}
+
 canvas { 
-    background: url(./game3.jpg);
+    background: url(./backdrop.jpg);
     background-size: cover;
     background-position-y: -50px;
     display: block;

@@ -127,13 +127,13 @@ function keyHandler(e) {
     //Player Two
     if (e.keyCode == 65){
         controlState.aKey = key_state;
-        playerArray.players[1].facingLeft = true;
+    //    playerArray.players[1].facingLeft = true;
     }
     else if (e.keyCode == 87)
         controlState.wKey = key_state
     else if (e.keyCode == 68){
         controlState.dKey = key_state;
-        playerArray.players[1].facingLeft = false;
+    //    playerArray.players[1].facingLeft = false;
     }
     else if (e.keyCode == 83)
         controlState.sKey = key_state;
@@ -214,22 +214,31 @@ function physics() {
             playerArray.players[0].y_velocity -= 20;
             playerArray.players[0].jumping = true;
         }
-        if (controlState.left)
+        if (controlState.left){
+            playerArray.players[0].facingLeft = true;
             playerArray.players[0].x_velocity -= 0.2;
-
+        }
+        
         if (controlState.right)
-            playerArray.players[0].x_velocity += 0.2;
+        {
+            playerArray.players[0].facingLeft = false;
+            playerArray.players[0].x_velocity += 0.2;            
+        }
 
         //Player 2 Controls
         if (controlState.wKey && playerArray.players[1].jumping == false) {
             playerArray.players[1].y_velocity -= 20;
             playerArray.players[1].jumping = true;
         }
-        if (controlState.aKey)
+        if (controlState.aKey){
             playerArray.players[1].x_velocity -= 0.2;
+            playerArray.players[1].facingLeft = true;
+        }
 
-        if (controlState.dKey)
+        if (controlState.dKey){
+            playerArray.players[1].facingLeft = false;
             playerArray.players[1].x_velocity += 0.2;
+        }
  
         // gravity
         playerArray.players[i].y_velocity += 1.2;
@@ -310,11 +319,13 @@ function createBullet(num) {
     for (let i = bulletsInWorld - 1; i < bulletsInWorld; i++) {
         let dxMod, bulletOffset;
 
-        if (playerArray.players[num].facingLeft == 0) {
+        //Spawn bullet to right of player
+        if (!playerArray.players[num].facingLeft) {
             dxMod = bulletVelocity + Math.random(),
                 bulletOffset = 40;
         }
-        if (playerArray.players[num].facingLeft == 1) {
+        //Spawn bullet to left of player
+        if (playerArray.players[num].facingLeft) {
             dxMod = -bulletVelocity + Math.random(),
                 bulletOffset = -20;
         }

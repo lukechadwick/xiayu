@@ -35,16 +35,8 @@ let playerArray = {
 }
 
 let playformArray = { 
-    "plat": [
-        // {startX:30, endX: 110, height: 210},
-        // {startX:210, endX: 250, height: 220},
-        // {startX:600, endX: 650, height: 240},
-        // {startX:300, endX: 330, height: 230},
-    ]
+    "plat": []
 }
-
-
-
 controlState = {
     left: false,
     right: false,
@@ -52,20 +44,7 @@ controlState = {
     down: false,
     shoot: false
 };
-//let curP = 0;
 
-
-function generatePlatform() {
-    for (let i = 0; i < 7; i++) {
-        let randomPoint = Math.random() * (i*100 - i*100) + i*100
-        playformArray.plat[i] = {
-            startX: randomPoint,
-            endX: randomPoint + 50,
-            height: Math.random() * (250 - 100) + 100,
-        }
-        console.log(playformArray)
-    }
-}
 generatePlatform();
 makePlayer();
 
@@ -121,19 +100,29 @@ function makePlayer() {
     }
 }
 
+function generatePlatform() {
+    for (let i = 0; i < 7; i++) {
+        let randomPoint = Math.random() * (i*100 - i*100) + i*100
+        playformArray.plat[i] = {
+            startX: randomPoint,
+            endX: randomPoint + 50,
+            height: Math.random() * (250 - 100) + 100,
+        }
+        console.log(playformArray)
+    }
+}
+
 function keyHandler(e) {
     var key_state = (event.type == "keydown") ? true : false;
 
     //Player Two
     if (e.keyCode == 65){
         controlState.aKey = key_state;
-    //    playerArray.players[1].facingLeft = true;
     }
     else if (e.keyCode == 87)
         controlState.wKey = key_state
     else if (e.keyCode == 68){
         controlState.dKey = key_state;
-    //    playerArray.players[1].facingLeft = false;
     }
     else if (e.keyCode == 83)
         controlState.sKey = key_state;
@@ -202,7 +191,7 @@ function boundaries() {
             playerArray.players[i].x_velocity = 0;
         }
         // if player goes past right boundary
-        else if (playerArray.players[i].x > windowWidth)
+        if (playerArray.players[i].x > windowWidth)
             playerArray.players[i].x = windowWidth;
     }
 }

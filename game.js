@@ -5,6 +5,8 @@ document.addEventListener("keyup", keyHandler);
 
 gameWindow = document.querySelector("canvas").getContext("2d");
 
+let bossMode = 0;
+
 //Player
 let playerSize = 40;
 let duckHeight = playerSize / 2;
@@ -45,6 +47,17 @@ controlState = {
     shoot: false
 };
 
+let boss = {
+    bossX: (windowWidth /2),
+    bossY: (windowHeight - 200),
+    health: 200,
+}
+
+
+function dropRocket (){
+    
+}
+
 generatePlatform();
 makePlayer();
 
@@ -74,6 +87,11 @@ function drawFrame() {
     hitDetection()
 
     ballSpeed();
+
+    drawBoss()
+
+    bossPhysics ()
+
 
     // call update when the browser is ready to draw again
     window.requestAnimationFrame(drawFrame);
@@ -106,7 +124,7 @@ function generatePlatform() {
         playformArray.plat[i] = {
             startX: randomPoint,
             endX: randomPoint + 50,
-            height: Math.random() * (250 - 100) + 100,
+            height: Math.random() * (250 - 100) + 100
         }
         console.log(playformArray)
     }
@@ -114,6 +132,8 @@ function generatePlatform() {
 
 function keyHandler(e) {
     var key_state = (event.type == "keydown") ? true : false;
+
+    e.preventDefault()
 
     //Player Two
     if (e.keyCode == 65){
@@ -248,7 +268,7 @@ function physics() {
                 playerArray.players[i].y_velocity = 0;
             }
 
-            //Playform collision
+            //Platform collision
             for (let j = 0; j < 7; j++) {
                 if (playerArray.players[i].y >  playformArray.plat[j].height - playerArray.players[i].height 
                     && playerArray.players[i].y <  playformArray.plat[j].height
@@ -264,6 +284,28 @@ function physics() {
     }
 }
 
+
+function bossPhysics () {
+
+    if (boss.bossX > windowWidth || bossMode == 0)
+        boss.bossX *= .9
+
+    if (boss.bossX < 100) {
+   
+        boss.bossX *= 1.1;
+  
+        bossMode = 1;
+    }
+
+}
+
+function drawBoss() {
+
+    drawing = new Image();
+    drawing.src = "3.png"; // can also be a remote URL e.g. http://
+    gameWindow.drawImage(drawing, boss.bossX +  + Math.random() * 5,  boss.bossY +  + Math.random() * 5);
+}
+
 function hitDetection() {
     for (let i = 0; i < bulletsInWorld; i++) {
         for (let j = 0; j < playerNumber; j++) {
@@ -271,7 +313,7 @@ function hitDetection() {
                 bulletArray.bullets[i].y - playerArray.players[j].y < 40 && bulletArray.bullets[i].y - playerArray.players[j].y > 0) {
                 
                 console.log('Player ' + j + " Hit")
-                bulletArray.bullets[i].y = bulletArray.bullets[i].y + 200;
+                bulletArray.bullets[i].y = bulletArray.bullets[i].y + 1000;
                 
                 playerArray.players[j].health -= 10;
                 console.log(playerArray.players[j].health)
@@ -292,6 +334,20 @@ function bulletCollision() {
         }
     }
 }
+
+// function collisionDetection(xArray, yArray, xMax, yMax) {
+//     for (let j = 0; j < 7; j++) {
+//         if (playerArray.players[i].y >  playformArray.plat[j].height - playerArray.players[i].height 
+//             && playerArray.players[i].y <  playformArray.plat[j].height
+//             && playerArray.players[i].x > playformArray.plat[j].startX -20 
+//             && playerArray.players[i].x < playformArray.plat[j].endX) {
+//             playerArray.players[i].jumping = false;
+            
+//             playerArray.players[i].y = playformArray.plat[j].height - playerArray.players[i].height;
+//             playerArray.players[i].y_velocity = 0;
+//         }                 
+//     }
+// }
 
 function ballSpeed() {
     for (let i = 0; i < bulletsInWorld; i++) {
@@ -417,12 +473,37 @@ function drawPlayer() {
 
 function drawPlatform() {
     for (let i = 0; i < playformArray.plat.length; i++) {
-        gameWindow.strokeStyle = "black";
+
+
+
+
+
+
+
+
         gameWindow.beginPath();
-        gameWindow.moveTo(playformArray.plat[i].startX,playformArray.plat[i].height);
-        gameWindow.lineTo(playformArray.plat[i].endX,playformArray.plat[i].height);
+        gameWindow.fillStyle = "#ff4300"; // hex for red
+
+
+        gameWindow.rect(playformArray.plat[i].startX, playformArray.plat[i].height, playformArray.plat[i].endX - playformArray.plat[i].startX, 10);
+        gameWindow.fill();
+        gameWindow.strokeStyle = "black";
         gameWindow.stroke();
-    } 
+        gameWindow.closePath();
+
+
+
+        for (let j = 0; j < 5; j++) {
+            
+            gameWindow.strokeStyle = "black";
+            gameWindow.beginPath();
+            gameWindow.moveTo(playformArray.plat[i].startX + (j * 10),playformArray.plat[i].height);
+            gameWindow.lineTo(playformArray.plat[i].startX + (j * 10),playformArray.plat[i].height + 10);
+            gameWindow.stroke();
+            gameWindow.closePath();
+        }
+
+    }  
 }
 
 function drawHealthBar() {

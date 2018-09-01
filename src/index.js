@@ -33,7 +33,7 @@ export let
 export let 
     playerSize = 40,
     duckHeight = playerSize / 2,
-    playerNumber = 2;
+    playerNumber = 12;
 
 //World
 export let 
@@ -44,7 +44,6 @@ export let
 //Ball
 export let 
     bulletRadius = 5,
-    bulletsInWorld = 1,
     bulletVelocity = 5;
 
 //Window Size
@@ -53,12 +52,7 @@ gameWindow.canvas.width = windowWidth;
 
 //Arrays
 export let bulletArray = {
-    "bullets": [{
-        "dx": 0,
-        "dy": 0,
-        'x': 0,
-        'y': 0
-    }]
+    "bullets": []
 }
 
 export let playerArray = {
@@ -76,6 +70,7 @@ export let boss = {
     state: 'left'
 }
 
+//Build World Items
 generatePlatform();
 makePlayer();
 
@@ -104,25 +99,19 @@ function drawFrame() {
 
     ballSpeed();
 
-    drawBoss()
+    drawBoss();
 
-    bossBehavior ()
+    bossBehavior();
 
     // call update when the browser is ready to draw again
     window.requestAnimationFrame(drawFrame);
 };
 drawFrame();
 
-
-
 function drawBackDrop() {
 
 }
 
-
 function dropRocket (){
     
 }
-
-
-

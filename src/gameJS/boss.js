@@ -19,7 +19,6 @@ export function bossBehavior () {
     if (boss.state == 'left'){
         boss.bossX *= 0.99
         boss.bossY *= .99
-
     }
 
     else if (boss.state == 'right'){

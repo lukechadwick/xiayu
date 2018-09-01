@@ -22,7 +22,5 @@ export function drawHealthBar() {
         gameWindow.strokeStyle = "black";
         gameWindow.stroke();
         gameWindow.closePath();
-    }
-
-    
+    }    
 }

@@ -1,10 +1,10 @@
 body {
-    background: url(./background.jpg);
+    background: url(./assets/background.jpg);
     background-size: 150%;
 }
 
 canvas { 
-    background: url(./backdrop.jpg);
+    background: url(./assets/backdrop.jpg);
     background-size: cover;
     background-position-y: -50px;
     display: block;

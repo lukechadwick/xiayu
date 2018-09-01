@@ -8,7 +8,7 @@ import { drawBullet, ballSpeed } from "./gameJS/projectiles";
 
 import { physics, boundaries } from "./gameJS/physics";
 
-import { hitDetection, bulletCollision } from "./gameJS/collision";
+import { hitDetection, bulletCollision, isOnPlatform } from "./gameJS/collision";
 
 import { drawHealthBar } from "./gameJS/healthbars";
 
@@ -95,7 +95,9 @@ function drawFrame() {
 
     drawBullet();
 
-    hitDetection()
+    hitDetection();
+
+    isOnPlatform();
 
     ballSpeed();
 

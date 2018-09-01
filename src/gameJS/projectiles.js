@@ -15,13 +15,13 @@ export function createBullet(num) {
 
         //Spawn bullet to right of player
         if (!playerArray.players[num].facingLeft) {
-            dxMod = bulletVelocity + Math.random(),
-                bulletOffset = 40;
+            dxMod = bulletVelocity + Math.random();
+            bulletOffset = 40;
         }
         //Spawn bullet to left of player
         if (playerArray.players[num].facingLeft) {
-            dxMod = -bulletVelocity + Math.random(),
-                bulletOffset = -20;
+            dxMod = -bulletVelocity + Math.random();
+            bulletOffset = -20;
         }
         bulletArray.bullets[i] = {
             "dx": dxMod,

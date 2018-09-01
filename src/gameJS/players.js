@@ -12,12 +12,10 @@ export function makePlayer() {
             height: playerSize,
             width: playerSize / 2,
 
-
-
-            x: (Math.random() * (windowWidth - 0) + 0),
+            x: Math.random() * windowWidth,
             y: 0,
-            x_velocity: 0,
-            y_velocity: 0,
+            xVelocity: 0,
+            yVelocity: 0,
             reloading: false,
             health: 100,
             facingLeft: false,
@@ -39,16 +37,13 @@ export function drawPlayer() {
         gameWindow.beginPath();
         gameWindow.fillStyle = "red"; // hex for red
 
-        if (i > 0)
-            gameWindow.fillStyle = "yellow";
+        if (i > 0) gameWindow.fillStyle = "yellow";
 
         gameWindow.rect(playerArray.players[i].x, playerArray.players[i].y, playerArray.players[i].width, playerArray.players[i].height);
         gameWindow.fill();
         gameWindow.strokeStyle = "black";
         gameWindow.stroke();
         gameWindow.closePath();
-
-
 
         //Draw Eye
         gameWindow.beginPath();
@@ -65,11 +60,8 @@ export function drawPlayer() {
 
         //Mouth
         let emotion = 0;
-
-        if (playerArray.players[i].health < 30)
-            emotion = 2*Math.PI;
-        else
-            emotion = Math.PI
+        playerArray.players[i].health < 30 ? emotion = 2*Math.PI : emotion = Math.PI
+        
         gameWindow.beginPath();
         gameWindow.arc(playerArray.players[i].x + 10, playerArray.players[i].y + 15,3,0, emotion);
         gameWindow.stroke();
@@ -85,8 +77,7 @@ export function drawPlayer() {
         gameWindow.lineTo(playerArray.players[i].x + 20, playerArray.players[i].y + 15);
         gameWindow.stroke();
         }
-
-        if (playerArray.players[i].facingLeft)
+        else
         {
         //left gun
         gameWindow.beginPath();
@@ -97,6 +88,5 @@ export function drawPlayer() {
         gameWindow.lineTo(playerArray.players[i].x - 20 + 20, playerArray.players[i].y + 15);
         gameWindow.stroke();
         }
-        
     }
 }

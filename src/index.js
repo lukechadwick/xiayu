@@ -2,7 +2,7 @@ import { drawPlatform, generatePlatform } from "./gameJS/platforms";
 
 import { drawPlayer, makePlayer } from "./gameJS/players";
 
-import { keyHandler, duck } from "./gameJS/controls";
+import { keyHandler} from "./gameJS/controls";
 
 import { drawBullet, ballSpeed } from "./gameJS/projectiles";
 
@@ -80,8 +80,6 @@ function drawFrame() {
     physics();
 
     boundaries();
-
-    duck();
 
     //drawBackDrop();
 

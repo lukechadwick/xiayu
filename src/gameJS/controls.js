@@ -30,9 +30,10 @@ export function keyHandler(e) {
         if (!playerArray.players[p].reloading && (playerArray.players[p].shootState))
             shoot(p);
     }
+    isDucking();
 }
 
-export function shoot(num) {
+function shoot(num) {
     if (!playerArray.players[num].reloading) {
         createBullet(num);
         playerArray.players[num].reloading = true;
@@ -44,12 +45,9 @@ export function shoot(num) {
     }
 }
 
-export function duck() {
+function isDucking() {
     for (let i = 0; i < playerNumber; i++) {
-        if (playerArray.players[i].duckState) {
-            playerArray.players[i].height = duckHeight;
-        } else {
-            playerArray.players[i].height = duckHeight * 2;
-        }
+        playerArray.players[i].duckState ? 
+        playerArray.players[i].height = duckHeight : playerArray.players[i].height = duckHeight * 2
     }
 }

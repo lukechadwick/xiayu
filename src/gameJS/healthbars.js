@@ -23,4 +23,6 @@ export function drawHealthBar() {
         gameWindow.stroke();
         gameWindow.closePath();
     }
+
+    
 }

@@ -12,15 +12,23 @@ export function makePlayer() {
             height: playerSize,
             width: playerSize / 2,
 
-            jumpState: false,
 
-            x: windowWidth / 2,
+
+            x: (Math.random() * (windowWidth - 0) + 0),
             y: 0,
             x_velocity: 0,
             y_velocity: 0,
             reloading: false,
             health: 100,
-            facingLeft: false
+            facingLeft: false,
+
+            jumpState: false,
+            
+            leftState: false,
+            rightState: false,
+            upState: false,
+            duckState: false,
+            shootState: false,
         }
         console.log(playerArray)
     }

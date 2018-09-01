@@ -2,9 +2,7 @@ import {
     playerNumber, 
     playerArray, 
     duckHeight, 
-    controlState,
-    bulletsInWorld
-} from "../index";
+ } from "../index";
 
 import { createBullet } from "./projectiles";
 
@@ -13,49 +11,29 @@ export function keyHandler(e) {
 
     e.preventDefault()
 
-    //Player Two
-    if (e.keyCode == 65){
-        controlState.aKey = key_state;
-    }
-    else if (e.keyCode == 87)
-        controlState.wKey = key_state
-    else if (e.keyCode == 68){
-        controlState.dKey = key_state;
-    }
-    else if (e.keyCode == 83)
-        controlState.sKey = key_state;
-    else if (e.keyCode == 16) {
-        controlState.shiftKey = key_state;
+    for (let p = 0; p < playerNumber; p++) {
+        if (e.keyCode == (p == 0 ?  65 : 37))
+            playerArray.players[p].leftState = key_state;
+    
+        if (e.keyCode == (p == 0 ?  87 : 38))
+            playerArray.players[p].upState = key_state;
 
-    if (!playerArray.players[0].reloading && (controlState.shiftKey))
-        shoot(0);
-    }
-
-    //Player One
-    if (e.keyCode == 37){
-        controlState.left = key_state;
-        playerArray.players[0].facingLeft = true;
-    }
-    else if (e.keyCode == 38)
-        controlState.up = key_state
-    else if (e.keyCode == 39)
-    {
-        controlState.right = key_state;
-        playerArray.players[0].facingLeft = false;
-    }
-    else if (e.keyCode == 40)
-        controlState.down = key_state;
-    else if (e.keyCode == 32) {
-        controlState.spaceKey = key_state;
-
-    if (!playerArray.players[1].reloading && (controlState.spaceKey))
-        shoot(1);
+        if (e.keyCode == (p == 0 ?  68 : 39))
+            playerArray.players[p].rightState = key_state;
+    
+        if (e.keyCode == (p == 0 ?  83 : 40))
+            playerArray.players[p].duckState = key_state;
+    
+        if (e.keyCode == (p == 0 ?  32 : 16))
+            playerArray.players[p].shootState = key_state;
+    
+        if (!playerArray.players[p].reloading && (playerArray.players[p].shootState))
+            shoot(p);
     }
 }
 
 export function shoot(num) {
     if (!playerArray.players[num].reloading) {
-        bulletsInWorld++
         createBullet(num);
         playerArray.players[num].reloading = true;
     }
@@ -68,15 +46,10 @@ export function shoot(num) {
 
 export function duck() {
     for (let i = 0; i < playerNumber; i++) {
-        if (controlState.down) {
-            playerArray.players[0].height = duckHeight;
+        if (playerArray.players[i].duckState) {
+            playerArray.players[i].height = duckHeight;
         } else {
-            playerArray.players[0].height = duckHeight * 2;
-        }
-        if (controlState.sKey) {
-            playerArray.players[1].height = duckHeight;
-        } else {
-            playerArray.players[1].height = duckHeight * 2;
+            playerArray.players[i].height = duckHeight * 2;
         }
     }
 }

@@ -1,7 +1,6 @@
 import { 
     playerNumber, 
     playerArray, 
-    bulletsInWorld, 
     gameWindow, 
     bulletArray, 
     bulletRadius, 
@@ -9,7 +8,9 @@ import {
 } from "../index";
 
 export function createBullet(num) {
-    for (let i = bulletsInWorld - 1; i < bulletsInWorld; i++) {
+    let bulletsInWorld = bulletArray.bullets.length
+    
+    for (let i = bulletArray.bullets.length ; i < bulletsInWorld + 1; i++) {
         let dxMod, bulletOffset;
 
         //Spawn bullet to right of player
@@ -34,7 +35,7 @@ export function createBullet(num) {
 
 export function drawBullet() {
     for (let i = 0; i < playerNumber; i++) {
-        for (let i = 0; i < bulletsInWorld; i++) {
+        for (let i = 0; i < bulletArray.bullets.length; i++) {
             gameWindow.beginPath();
             gameWindow.arc(bulletArray.bullets[i].x, bulletArray.bullets[i].y, bulletRadius, 0, Math.PI * 2);
             gameWindow.fillStyle = "#0095DD";
@@ -47,7 +48,7 @@ export function drawBullet() {
 }
 
 export function ballSpeed() {
-    for (let i = 0; i < bulletsInWorld; i++) {
+    for (let i = 0; i < bulletArray.bullets.length; i++) {
         bulletArray.bullets[i].x += bulletArray.bullets[i].dx;
         //  bulletArray.bullets[i].y += bulletArray.bullets[i].dy;  //move ball up and down / Y-axis
     }

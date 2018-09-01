@@ -1,12 +1,11 @@
 import { 
     playerArray, 
     playerNumber, 
-    bulletsInWorld,
     bulletArray
 } from "../index";
 
 export function hitDetection() {
-    for (let i = 0; i < bulletsInWorld; i++) {
+    for (let i = 0; i < bulletArray.bullets.length; i++) {
         for (let j = 0; j < playerNumber; j++) {
             if (bulletArray.bullets[i].x - playerArray.players[j].x < 5 && bulletArray.bullets[i].x - playerArray.players[j].x > 0 &&
                 bulletArray.bullets[i].y - playerArray.players[j].y < 40 && bulletArray.bullets[i].y - playerArray.players[j].y > 0) {
@@ -22,8 +21,8 @@ export function hitDetection() {
 }
 
 export function bulletCollision() {
-    for (let i = 0; i < bulletsInWorld; i++) {
-        for (let j = 0; j < bulletsInWorld; j++) {
+    for (let i = 0; i < bulletArray.bullets.length; i++) {
+        for (let j = 0; j < bulletArray.bullets.length; j++) {
             if (bulletArray.bullets[i].x - bulletArray.bullets[j].x < 5 && bulletArray.bullets[i].x - bulletArray.bullets[j].x > 0 &&
                 bulletArray.bullets[i].y - bulletArray.bullets[j].y < 5 && bulletArray.bullets[i].y - bulletArray.bullets[j].y > 0) {
                   //  bulletArray.bullets[i].dx = -bulletArray.bullets[i].dx;

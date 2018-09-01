@@ -5,19 +5,13 @@ import {
 } from "../index";
 
 export function hitDetection() {
-    for (let i = 0; i < bulletArray.bullets.length; i++) {
-        for (let j = 0; j < playerNumber; j++) {
-            if (bulletArray.bullets[i].x - playerArray.players[j].x < 5 && bulletArray.bullets[i].x - playerArray.players[j].x > 0 &&
-                bulletArray.bullets[i].y - playerArray.players[j].y < 40 && bulletArray.bullets[i].y - playerArray.players[j].y > 0) {
-                
-                //Move bullet out of world
-                bulletArray.bullets[i].y = bulletArray.bullets[i].y + 1000;
-                
-                playerArray.players[j].health -= 10;
-                console.log('Player ' + j + " Hit, Current Health: " + playerArray.players[j].health)
-            }
-        }
+    let playerHit = isCollide(bulletArray.bullets, playerArray.players, 5, 0, 40, 0)
+    if (playerHit){
+        playerArray.players[playerHit[1]].health -= 10;
+        bulletArray.bullets[playerHit[0]].y = bulletArray.bullets[playerHit[0]].y + 1000;
+        console.log('Player ' + playerHit[1] + " Hit, Current Health: " + playerArray.players[playerHit[1]].health)
     }
+            
 }
 
 export function bulletCollision() {
@@ -31,4 +25,21 @@ export function bulletCollision() {
             }
         }
     }
+}
+
+export function bulletCollision2() {
+    if (isCollide(bulletArray.bullets, bulletArray.bullets, 5, 0, 5, 0))
+        console.log('boing!')
+}
+
+
+function isCollide(object1, object2, offset1, offset2, offset3, offset4, id){
+    for (let i = 0; i < object1.length; i++) {
+        for (let j = 0; j < object2.length; j++) {
+            if (object1[i].x - object2[j].x < offset1 && object1[i].x - object2[j].x > offset2 &&
+                object1[i].y - object2[j].y < offset3 && object1[i].y - object2[j].y > offset4) {
+                    return [i, j]
+            }       
+        }
+    }            
 }

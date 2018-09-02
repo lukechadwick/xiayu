@@ -17,16 +17,16 @@ export function bossBehavior () {
 
     bossAttack();
 
-    createBullet('b');
 }
 
 function moveBoss() {
-        boss.x += boss.dx;
-        boss.y += boss.dy;
+    boss.x += boss.dx;
+    boss.y += boss.dy;
 }
 
 function bossAttack(){
     //bang
+    createBullet('b');
 }
 
 function wallCollisionDetection() {
@@ -44,5 +44,8 @@ function wallCollisionDetection() {
 export function drawBoss() {
     let drawing = new Image();
     drawing.src = "./assets/boss.png"; // can also be a remote URL e.g. http://
-    gameWindow.drawImage(drawing, boss.x +  + Math.random() * 5,  boss.y +  + Math.random() * 5);
+    gameWindow.drawImage(drawing, boss.x,  boss.y);
+
+    //    gameWindow.drawImage(drawing, boss.x +  + Math.random() * 5,  boss.y +  + Math.random() * 5);
+
 }

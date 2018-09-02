@@ -33,7 +33,7 @@ export let
 export let 
     playerSize = 40,
     duckHeight = playerSize / 2,
-    playerNumber = 4;
+    playerNumber = 2;
 
 //World
 export let 
@@ -85,13 +85,16 @@ setTimeout(
         boss.y = -100;
     }, 3000);
 
-
 function drawFrame() {
     gameWindow.clearRect(0, 0, windowWidth, windowHeight);
-    if (bosstime == 1) {
+    if (bosstime == 2) {
         drawBoss();
         bossBehavior();
     }
+
+    drawBullet();
+
+    drawHealthBar();
     
     physics();
 
@@ -103,11 +106,7 @@ function drawFrame() {
 
     bulletCollision();
 
-    drawHealthBar();
-
     drawPlayer();
-
-    drawBullet();
 
     hitDetection();
 

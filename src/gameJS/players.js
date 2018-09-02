@@ -20,6 +20,8 @@ export function makePlayer() {
             health: 100,
             facingLeft: false,
 
+            color: '#'+(Math.random()*0xFFFFFF<<0).toString(16),
+
             jumpState: false,
             
             leftState: false,
@@ -35,9 +37,12 @@ export function makePlayer() {
 export function drawPlayer() {
     for (let i = 0; i < playerNumber; i++) {
         gameWindow.beginPath();
-        gameWindow.fillStyle = "red"; // hex for red
+        gameWindow.fillStyle = playerArray.players[i].color; // hex for red
 
-        if (i > 0) gameWindow.fillStyle = "yellow";
+        if (i == 0) gameWindow.fillStyle = "red";
+        if (i == 1) gameWindow.fillStyle = "yellow";
+        if (i == 2) gameWindow.fillStyle = "blue";
+        if (i == 3) gameWindow.fillStyle = "green";
 
         gameWindow.rect(playerArray.players[i].x, playerArray.players[i].y, playerArray.players[i].width, playerArray.players[i].height);
         gameWindow.fill();

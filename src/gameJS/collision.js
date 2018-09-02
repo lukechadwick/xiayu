@@ -6,7 +6,7 @@ import {
 } from "../index";
 
 export function hitDetection() {
-    let playerHit = detectCollision(bulletArray.bullets, playerArray.players, 5, 0, 40, 0)
+    let playerHit = detectCollision(bulletArray.bullets, playerArray.players, 20, 0, 40, 0)
     if (playerHit){
         playerArray.players[playerHit[1]].health -= 10;
         bulletArray.bullets[playerHit[0]].y = bulletArray.bullets[playerHit[0]].y + 1000;
@@ -33,8 +33,12 @@ export function isOnPlatform(){
 }
 
 export function bulletCollision() {
-    if (detectCollision(bulletArray.bullets, bulletArray.bullets, 5, 0, 5, 0))
-        console.log('boing!')
+    let bulletHit = detectCollision(bulletArray.bullets, bulletArray.bullets, 5, -5, 5, -5)
+    if (bulletHit){
+        bulletArray.bullets[bulletHit[0]].dy = -5 * Math.random()
+        bulletArray.bullets[ bulletHit[1]].dy = 5 * Math.random()
+        console.log('Bullet collision between', 'Bullet:', bulletHit[0], '&', 'Bullet:', bulletHit[1])
+    }
 }
 
 export function detectCollision(object1, object2, offset1, offset2, offset3, offset4){
@@ -42,6 +46,7 @@ export function detectCollision(object1, object2, offset1, offset2, offset3, off
         for (let j = 0; j < object2.length; j++) {
             if (object1[i].x - object2[j].x < offset1 && object1[i].x - object2[j].x > offset2 &&
                 object1[i].y - object2[j].y < offset3 && object1[i].y - object2[j].y > offset4) {
+                    if (i != j)
                     return [i, j]
             }       
         }

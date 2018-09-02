@@ -33,7 +33,7 @@ export let
 export let 
     playerSize = 40,
     duckHeight = playerSize / 2,
-    playerNumber = 2;
+    playerNumber = 4;
 
 //World
 export let 
@@ -66,17 +66,23 @@ export let platformArray = {
 }
 
 export let boss = {
-    x: (windowWidth /2),
-    y: (windowHeight - 200),
-    dx: 4 * Math.random(),
-    dy: 4 * Math.random(),
+    x: Math.random() * (windowWidth - 0) + 0,
+    y: 0,
+    dx: Math.random() * (3 - 1) + 1,
+    dy: Math.random() * (3 - 1) + 1,
     health: 200,
-    state: 'left'
+    state: 'left',
+    ammo: 100
 }
 
 //Build World Items
 generatePlatform();
 makePlayer();
+
+setInterval(
+    function restoreBossAmmo(){ 
+        boss.ammo = 100;
+    }, 8000);
 
 //Start boss spawn timer
 setTimeout(
@@ -87,7 +93,7 @@ setTimeout(
 
 function drawFrame() {
     gameWindow.clearRect(0, 0, windowWidth, windowHeight);
-    if (bosstime == 2) {
+    if (bosstime == 1) {
         drawBoss();
         bossBehavior();
     }

@@ -1,12 +1,12 @@
 import { 
-    playerNumber, 
     playerArray, 
     gameWindow, 
     bulletArray, 
     bulletRadius, 
     bulletVelocity, 
     windowHeight,
-    windowWidth
+    windowWidth,
+    boss
 } from "../index";
 
 export function createBullet(num) {
@@ -15,24 +15,35 @@ export function createBullet(num) {
     for (let i = bulletArray.bullets.length ; i < bulletsInWorld + 1; i++) {
         let dxMod, bulletOffset;
 
+
         //Spawn bullet to right of player
-        if (!playerArray.players[num].facingLeft) {
-            dxMod = bulletVelocity + Math.random();
-            bulletOffset = 40;
+        if (num !== 'b'){
+            if (!playerArray.players[num].facingLeft) {
+                dxMod = bulletVelocity + Math.random();
+                bulletOffset = 40;
+            }
+            //Spawn bullet to left of player
+            if (playerArray.players[num].facingLeft) {
+                dxMod = -bulletVelocity + Math.random();
+                bulletOffset = -20;
+            }
+            bulletArray.bullets[i] = {
+                "dx": dxMod,
+                "dy": 0,
+                'x': (playerArray.players[num].x + bulletOffset),
+                'y': (playerArray.players[num].y + 15)
+            }
         }
-        //Spawn bullet to left of player
-        if (playerArray.players[num].facingLeft) {
-            dxMod = -bulletVelocity + Math.random();
-            bulletOffset = -20;
+        else{
+            bulletArray.bullets[i] = {
+                "dx": 1,
+                "dy": 1,
+                'x': boss.x + 63,
+                'y': boss.y + 63
+            }
         }
-        bulletArray.bullets[i] = {
-            "dx": dxMod,
-            "dy": 0,
-            'x': (playerArray.players[num].x + bulletOffset),
-            'y': (playerArray.players[num].y + 15)
-        }
-        console.log(bulletArray)
     }
+    //console.log('Bullets', bulletArray)
 }
 
 export function drawBullet() {
@@ -41,7 +52,7 @@ export function drawBullet() {
         if (bulletArray.bullets[i].y < windowHeight && bulletArray.bullets[i].x < windowWidth && bulletArray.bullets[i].x > 0){
             gameWindow.beginPath();
             gameWindow.arc(bulletArray.bullets[i].x, bulletArray.bullets[i].y, bulletRadius, 0, Math.PI * 2);
-            gameWindow.fillStyle =  '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+            gameWindow.fillStyle = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
             gameWindow.fill();
             gameWindow.strokeStyle = "black";
             gameWindow.stroke();

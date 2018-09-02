@@ -30,8 +30,8 @@ export function makePlayer() {
             duckState: false,
             shootState: false,
         }
-        console.log(playerArray)
     }
+    console.log('Players:',playerArray)
 }
 
 export function drawPlayer() {

@@ -33,6 +33,6 @@ export function generatePlatform() {
             endX: randomPoint + 50,
             height: Math.random() * (200 - 80) + 80
         }
-        console.log(platformArray)
     }
+    console.log('Platforms:', platformArray)
 }

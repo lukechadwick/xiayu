@@ -10,13 +10,11 @@ import {
 } from "./projectiles"
 
 export function bossBehavior () {
-
     moveBoss();
 
     wallCollisionDetection();
 
     bossAttack();
-
 }
 
 function moveBoss() {
@@ -25,27 +23,25 @@ function moveBoss() {
 }
 
 function bossAttack(){
-    //bang
-    createBullet('b');
+    if (boss.ammo > 0) {
+        boss.ammo--
+        createBullet('b');
+    }
 }
 
 function wallCollisionDetection() {
-    if (boss.x + boss.dx > windowWidth + 50 || boss.x + boss.dx < -100) {
+    if (boss.x + boss.dx > windowWidth + 10 || boss.x + boss.dx < -130) {
         console.log('Boss: Changing X direction')
         boss.dx = -boss.dx;
     }
-    if (boss.y + boss.dy > windowHeight + 50 || boss.y + boss.dy < -100) {
+    if (boss.y + boss.dy > windowHeight + 10 || boss.y + boss.dy < -130) {
         boss.dy = -boss.dy;
         console.log('Boss: Changing Y direction')
     }
 }
 
-
 export function drawBoss() {
     let drawing = new Image();
-    drawing.src = "./assets/boss.png"; // can also be a remote URL e.g. http://
+    drawing.src = "./assets/boss.png";
     gameWindow.drawImage(drawing, boss.x,  boss.y);
-
-    //    gameWindow.drawImage(drawing, boss.x +  + Math.random() * 5,  boss.y +  + Math.random() * 5);
-
 }

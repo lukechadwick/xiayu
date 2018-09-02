@@ -15,7 +15,6 @@ export function createBullet(num) {
     for (let i = bulletArray.bullets.length ; i < bulletsInWorld + 1; i++) {
         let dxMod, bulletOffset;
 
-
         //Spawn bullet to right of player
         if (num !== 'b'){
             if (!playerArray.players[num].facingLeft) {
@@ -47,7 +46,9 @@ export function createBullet(num) {
 }
 
 export function drawBullet() {
+    //let bulletsOnScreen = 0
     for (let i = 0; i < bulletArray.bullets.length; i++) {
+        //bulletsOnScreen = 0
         //Only draw bullets on screen
         if (bulletArray.bullets[i].y < windowHeight && bulletArray.bullets[i].x < windowWidth && bulletArray.bullets[i].x > 0){
             gameWindow.beginPath();
@@ -57,8 +58,16 @@ export function drawBullet() {
             gameWindow.strokeStyle = "black";
             gameWindow.stroke();
             gameWindow.closePath();
+            //bulletsOnScreen ++
+        }
+        else{
+            //Cull offscreen bullets from array
+            let deadBullets = bulletArray.bullets.splice(i, 1)
+          //  console.log(bulletArray.bullets.length)
         }
     }
+  //  console.log(bulletsOnScreen)
+   // bulletsOnScreen = 0
 }
 
 export function ballSpeed() {

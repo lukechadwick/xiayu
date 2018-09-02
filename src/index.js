@@ -93,7 +93,7 @@ setTimeout(
 function drawFrame() {
     gameWindow.clearRect(0, 0, windowWidth, windowHeight);
     
-    if (bosstime == 2) {
+    if (bosstime == 1) {
         drawBoss();
         bossBehavior();
     }

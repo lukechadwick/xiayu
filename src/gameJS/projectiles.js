@@ -4,7 +4,9 @@ import {
     gameWindow, 
     bulletArray, 
     bulletRadius, 
-    bulletVelocity 
+    bulletVelocity, 
+    windowHeight,
+    windowWidth
 } from "../index";
 
 export function createBullet(num) {
@@ -25,7 +27,7 @@ export function createBullet(num) {
         }
         bulletArray.bullets[i] = {
             "dx": dxMod,
-            "dy": -bulletVelocity + Math.random(),
+            "dy": 0,
             'x': (playerArray.players[num].x + bulletOffset),
             'y': (playerArray.players[num].y + 15)
         }
@@ -34,11 +36,12 @@ export function createBullet(num) {
 }
 
 export function drawBullet() {
-    for (let i = 0; i < playerNumber; i++) {
-        for (let i = 0; i < bulletArray.bullets.length; i++) {
+    for (let i = 0; i < bulletArray.bullets.length; i++) {
+        //Only draw bullets on screen
+        if (bulletArray.bullets[i].y < windowHeight && bulletArray.bullets[i].x < windowWidth && bulletArray.bullets[i].x > 0){
             gameWindow.beginPath();
             gameWindow.arc(bulletArray.bullets[i].x, bulletArray.bullets[i].y, bulletRadius, 0, Math.PI * 2);
-            gameWindow.fillStyle = "#0095DD";
+            gameWindow.fillStyle =  '#'+(Math.random()*0xFFFFFF<<0).toString(16);
             gameWindow.fill();
             gameWindow.strokeStyle = "black";
             gameWindow.stroke();
@@ -50,6 +53,6 @@ export function drawBullet() {
 export function ballSpeed() {
     for (let i = 0; i < bulletArray.bullets.length; i++) {
         bulletArray.bullets[i].x += bulletArray.bullets[i].dx;
-        //  bulletArray.bullets[i].y += bulletArray.bullets[i].dy;  //move ball up and down / Y-axis
+        bulletArray.bullets[i].y += bulletArray.bullets[i].dy;
     }
 }

@@ -36,8 +36,8 @@ export function createBullet(num) {
         }
         else{
             bulletArray.bullets[i] = {
-                "dx": 1,
-                "dy": 1,
+                "dx": 3,
+                "dy": 3,
                 'x': boss.x + 63,
                 'y': boss.y + 63
             }

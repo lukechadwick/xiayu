@@ -33,7 +33,7 @@ export let
 export let 
     playerSize = 40,
     duckHeight = playerSize / 2,
-    playerNumber = 2;
+    playerNumber = 4;
 
 //World
 export let 
@@ -45,6 +45,8 @@ export let
 export let 
     bulletRadius = 5,
     bulletVelocity = 5;
+
+let bosstime = 0;
 
 //Window Size
 gameWindow.canvas.height = windowHeight;
@@ -64,8 +66,10 @@ export let platformArray = {
 }
 
 export let boss = {
-    bossX: (windowWidth /2),
-    bossY: (windowHeight - 200),
+    x: (windowWidth /2),
+    y: (windowHeight - 200),
+    dx: 4 * Math.random(),
+    dy: 4 * Math.random(),
     health: 200,
     state: 'left'
 }
@@ -74,9 +78,21 @@ export let boss = {
 generatePlatform();
 makePlayer();
 
+//Start boss spawn timer
+setTimeout(
+    function(){ 
+        bosstime = 1; 
+        boss.y = -100;
+    }, 3000);
+
+
 function drawFrame() {
     gameWindow.clearRect(0, 0, windowWidth, windowHeight);
-
+    if (bosstime == 1) {
+        drawBoss();
+        bossBehavior();
+    }
+    
     physics();
 
     boundaries();
@@ -98,10 +114,6 @@ function drawFrame() {
     isOnPlatform();
 
     ballSpeed();
-
-    drawBoss();
-
-    bossBehavior();
 
     // call update when the browser is ready to draw again
     window.requestAnimationFrame(drawFrame);

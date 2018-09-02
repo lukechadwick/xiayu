@@ -88,12 +88,12 @@ setInterval(
 setTimeout(
     function(){ 
         bosstime = 1; 
-        boss.y = -100;
     }, 3000);
 
 function drawFrame() {
     gameWindow.clearRect(0, 0, windowWidth, windowHeight);
-    if (bosstime == 1) {
+    
+    if (bosstime == 2) {
         drawBoss();
         bossBehavior();
     }

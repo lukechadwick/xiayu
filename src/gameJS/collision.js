@@ -2,7 +2,8 @@ import {
     playerArray,
     bulletArray,
     platformArray,
-    playerNumber
+    playerNumber,
+    boss
 } from "../index";
 
 export function hitDetection() {
@@ -51,43 +52,18 @@ export function bulletCollision() {
     }
 }
 
-// //Generic collision function
-// export function detectCollision(object1, object2, offset1, offset2, offset3, offset4) {
-//     let collisionArray = []
-//     for (let i = 0; i < object1.length; i++) {
-//         for (let j = 0; j < object2.length; j++) {
-//             if (object1[i].x - object2[j].x < offset1 && object1[i].x - object2[j].x > offset2 &&
-//                 object1[i].y - object2[j].y < offset3 && object1[i].y - object2[j].y > offset4) {
-//                 if (i != j)
-//                     collisionArray.push([i, j])
-//             }
-//         }
-//     }
-//     if (collisionArray.length != 0)
-//         return collisionArray
-// }
+export function bossHit() {
+    for (let i = 0; i < bulletArray.bullets.length; i++) {
+        for (let j = 0; j < 1; j++) {
+            if (bulletArray.bullets[i].x - boss.x < 80 && bulletArray.bullets[i].x - boss.x > 50 &&
+                bulletArray.bullets[i].y - boss.y < 120 && bulletArray.bullets[i].y - boss.y > 0) {
+                    if (boss.ammo == 0 && bulletArray.bullets[i].origin != 1){
+                        boss.health -= 10;
+                        bulletArray.bullets[i].y = bulletArray.bullets[i].y + 1000;
+                        console.log('Boss ' + ' Hit, Current Health: ' + boss.health)
+                    }
 
-// export function isOnPlatform() {
-//     let a = detectCollision(playerArray.players, platformArray.plat, 50, -20, 0, -36)
-//     if (a) {
-
-//         for (let i = 0; i < arguments.length; i++) {
-//             for (let j = 0; j < array.length; j++) {
-//                 playerArray.players[a[i][0]].jumping = false;
-
-//                 if (playerArray.players[a[i][0]].health > 1) {
-//                     playerArray.players[a[i][0]].yVelocity = 0;
-//                     playerArray.players[a[i][0]].y = platformArray.plat[a[j][1]].y - 36;
-//                 }
-//             }
-//         }
-//         console.log(a.length);
-
-//         playerArray.players[a[0][0]].jumping = false;
-
-//         if (playerArray.players[a[0][0]].health > 1) {
-//             playerArray.players[a[0][0]].yVelocity = 0;
-//             playerArray.players[a[0][0]].y = platformArray.plat[a[0][1]].y - 36;
-//         }
-//     }
-// }
+            }
+        }
+    }
+}

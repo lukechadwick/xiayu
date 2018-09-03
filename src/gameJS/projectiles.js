@@ -30,7 +30,8 @@ export function createBullet(num) {
                 "dx": dxMod,
                 "dy": 0,
                 'x': (playerArray.players[num].x + bulletOffset),
-                'y': (playerArray.players[num].y + 15)
+                'y': (playerArray.players[num].y + 15),
+                'origin' : 0
             }
         }
         else{
@@ -38,7 +39,8 @@ export function createBullet(num) {
                 "dx": Math.random() * (3 - -3) + -3,
                 "dy": Math.random() * (3 - -3) + -3,
                 'x': boss.x + 63,
-                'y': boss.y + 63
+                'y': boss.y + 63,
+                'origin' : 1
             }
         }
     }

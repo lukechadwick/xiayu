@@ -5,6 +5,7 @@ import {
     windowWidth,
     groundHeight,
     playerSize,
+    boss,
 } from "../index";
 
 export function physics() {
@@ -26,8 +27,12 @@ export function physics() {
 
         // gravity
         playerArray.players[i].yVelocity += 1.2;
+        
         playerArray.players[i].x += playerArray.players[i].xVelocity;
         playerArray.players[i].y += playerArray.players[i].yVelocity;
+
+         if (boss.health < 1)
+             boss.y+= 0.5
 
         // friction
         playerArray.players[i].xVelocity *= 0.9;

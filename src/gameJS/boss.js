@@ -34,7 +34,7 @@ function wallCollisionDetection() {
         console.log('Boss: Changing X direction')
         boss.dx = -boss.dx;
     }
-    if (boss.y + boss.dy > windowHeight + 10 || boss.y + boss.dy < -130) {
+    if (boss.y + boss.dy > windowHeight - 100 || boss.y + boss.dy < -50) {
         boss.dy = -boss.dy;
         console.log('Boss: Changing Y direction')
     }
@@ -44,9 +44,9 @@ export function drawBoss() {
     let drawing = new Image();
     
         if (boss.ammo == 0)
-        drawing.src = "./assets/bossGreen.png";
-        else
         drawing.src = "./assets/boss.png";
+        else
+        drawing.src = "./assets/bossGreen.png";
     
 
     gameWindow.drawImage(drawing, boss.x,  boss.y);

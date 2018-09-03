@@ -20,10 +20,10 @@ export function AI(){
         
             playerArray.players[p].rightState = Math.random() >= 0.5;
         
-            playerArray.players[p].duckState = Math.random() >= 0.9;
+            playerArray.players[p].duckState = Math.random() >= 0.7;
 
 
-            if (!playerArray.players[p].reloading)
+            if (!playerArray.players[p].reloading && (Math.random() >= 0.7))
             shoot(p)
         
         }

@@ -37,6 +37,21 @@ export function isOnPlatform() {
     }
 }
 
+export function bulletCollisionPlat() {
+    for (let i = 0; i < bulletArray.bullets.length; i++) {
+        for (let j = 0; j < platformArray.plat.length; j++) {
+            if (bulletArray.bullets[i].x - platformArray.plat[j].x < 20 && bulletArray.bullets[i].x - platformArray.plat[j].x > 0 &&
+                bulletArray.bullets[i].y - platformArray.plat[j].y < 20 && bulletArray.bullets[i].y - platformArray.plat[j].y > 0) {
+                if (i != j) {
+                    bulletArray.bullets[[i]].dy = -5 * Math.random()
+                    bulletArray.bullets[[j]].dy = 5 * Math.random()
+
+                }
+            }
+        }
+    }
+}
+
 export function bulletCollision() {
     for (let i = 0; i < bulletArray.bullets.length; i++) {
         for (let j = 0; j < bulletArray.bullets.length; j++) {

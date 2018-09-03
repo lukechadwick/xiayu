@@ -31,13 +31,11 @@ export function keyHandler(e) {
             if (!playerArray.players[p].reloading && (playerArray.players[p].shootState))
                 shoot(p);
         }
-
     }
-
     isDucking();
 }
 
-function shoot(num) {
+export function shoot(num) {
     if (!playerArray.players[num].reloading) {
         createBullet(num);
         playerArray.players[num].reloading = true;

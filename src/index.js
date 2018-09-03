@@ -35,7 +35,7 @@ export let
 export let 
     playerSize = 40,
     duckHeight = playerSize / 2,
-    playerNumber = 22;
+    playerNumber = 10;
 
 //World
 export let 

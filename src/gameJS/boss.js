@@ -42,6 +42,12 @@ function wallCollisionDetection() {
 
 export function drawBoss() {
     let drawing = new Image();
-    drawing.src = "./assets/boss.png";
+    
+        if (boss.ammo == 0)
+        drawing.src = "./assets/bossGreen.png";
+        else
+        drawing.src = "./assets/boss.png";
+    
+
     gameWindow.drawImage(drawing, boss.x,  boss.y);
 }

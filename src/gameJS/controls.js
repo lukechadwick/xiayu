@@ -12,24 +12,28 @@ export function keyHandler(e) {
     e.preventDefault()
 
     for (let p = 0; p < playerNumber; p++) {
-        if (e.keyCode == (p == 0 ?  65 : 37))
-            playerArray.players[p].leftState = key_state;
-    
-        if (e.keyCode == (p == 0 ?  87 : 38))
-            playerArray.players[p].upState = key_state;
 
-        if (e.keyCode == (p == 0 ?  68 : 39))
-            playerArray.players[p].rightState = key_state;
-    
-        if (e.keyCode == (p == 0 ?  83 : 40))
-            playerArray.players[p].duckState = key_state;
-    
-        if (e.keyCode == (p == 0 ?  32 : 16))
-            playerArray.players[p].shootState = key_state;
-    
-        if (!playerArray.players[p].reloading && (playerArray.players[p].shootState))
-            shoot(p);
+        if (p < 2){
+            if (e.keyCode == (p == 0 ?  65 : 37))
+            playerArray.players[p].leftState = key_state;
+            if (e.keyCode == (p == 0 ?  87 : 38))
+                playerArray.players[p].upState = key_state;
+
+            if (e.keyCode == (p == 0 ?  68 : 39))
+                playerArray.players[p].rightState = key_state;
+        
+            if (e.keyCode == (p == 0 ?  83 : 40))
+                playerArray.players[p].duckState = key_state;
+        
+            if (e.keyCode == (p == 0 ?  32 : 16))
+                playerArray.players[p].shootState = key_state;
+        
+            if (!playerArray.players[p].reloading && (playerArray.players[p].shootState))
+                shoot(p);
+        }
+
     }
+
     isDucking();
 }
 

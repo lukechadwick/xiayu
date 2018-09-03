@@ -8,11 +8,13 @@ import { drawBullet, ballSpeed } from "./gameJS/projectiles";
 
 import { physics, boundaries } from "./gameJS/physics";
 
-import { hitDetection, bulletCollision, isOnPlatform } from "./gameJS/collision";
+import { hitDetection, bulletCollision, isOnPlatform, bossHit } from "./gameJS/collision";
 
 import { drawHealthBar } from "./gameJS/healthbars";
 
 import { drawBoss, bossBehavior } from "./gameJS/boss";
+
+import { AI } from "./gameJS/AI";
 
 document.addEventListener("keydown", keyHandler);
 document.addEventListener("keyup", keyHandler);
@@ -33,7 +35,7 @@ export let
 export let 
     playerSize = 40,
     duckHeight = playerSize / 2,
-    playerNumber = 4;
+    playerNumber = 22;
 
 //World
 export let 
@@ -69,7 +71,7 @@ export let boss = {
     x: Math.random() * (windowWidth - 0) + 0,
     y: 0,
     dx: Math.random() * (3 - 1) + 1,
-    dy: Math.random() * (1 - 1) + 1,
+    dy: Math.random() * (0.2 - 0) + 0,
     health: 200,
     state: 'left',
     ammo: 100
@@ -84,9 +86,16 @@ setInterval(
         boss.ammo = 100;
     }, 8000);
 
+
+setInterval(
+    function updateAI(){ 
+        AI();
+    }, 200);
+
 //Start boss spawn timer
 setTimeout(
     function(){ 
+
         bosstime = 1; 
     }, 3000);
 
@@ -94,17 +103,19 @@ function drawFrame() {
     gameWindow.clearRect(0, 0, windowWidth, windowHeight);
     
     if (bosstime == 1) {
+        if (boss.y < windowHeight + 100){
         drawBoss();
         bossBehavior();
+        }
     }
-
-    drawBullet();
 
     drawHealthBar();
     
     physics();
 
     boundaries();
+
+    bossHit();
 
     //drawBackDrop();
 
@@ -117,6 +128,8 @@ function drawFrame() {
     hitDetection();
 
     isOnPlatform();
+
+    drawBullet();
 
     ballSpeed();
 

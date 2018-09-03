@@ -69,7 +69,7 @@ export let boss = {
     x: Math.random() * (windowWidth - 0) + 0,
     y: 0,
     dx: Math.random() * (3 - 1) + 1,
-    dy: Math.random() * (3 - 1) + 1,
+    dy: Math.random() * (1 - 1) + 1,
     health: 200,
     state: 'left',
     ammo: 100

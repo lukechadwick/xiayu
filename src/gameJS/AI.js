@@ -1,9 +1,11 @@
 import { 
     playerNumber, 
-    playerArray
+    playerArray,
  } from "../index";
 
-
+ import { 
+    shoot
+ } from "./controls";
 
 
 export function AI(){
@@ -19,6 +21,10 @@ export function AI(){
             playerArray.players[p].rightState = Math.random() >= 0.5;
         
             playerArray.players[p].duckState = Math.random() >= 0.9;
+
+
+            if (!playerArray.players[p].reloading)
+            shoot(p)
         
         }
     }

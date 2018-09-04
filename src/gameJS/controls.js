@@ -43,7 +43,7 @@ export function shoot(num) {
     if (playerArray.players[num].reloading) {
         setTimeout(function() {
             playerArray.players[num].reloading = false;
-        }, 500);
+        }, 400);
     }
 }
 

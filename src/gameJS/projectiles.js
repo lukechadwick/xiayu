@@ -40,11 +40,18 @@ export function createBullet(num) {
                 "dy": Math.random() * (3 - -3) + -3,
                 'x': boss.x + 63,
                 'y': boss.y + 63,
-                'origin' : 1
+                'origin' : 1,
+                'hasBounced' : 0
             }
         }
     }
     //console.log('Bullets', bulletArray)
+}
+
+export function resetBounceState() {
+    bulletArray.bullets.forEach(element => {
+        element.hasBounced = 0
+    });
 }
 
 export function drawBullet() {

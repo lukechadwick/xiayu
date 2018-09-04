@@ -4,7 +4,7 @@ import { drawPlayer, makePlayer } from "./gameJS/players";
 
 import { keyHandler} from "./gameJS/controls";
 
-import { drawBullet, ballSpeed } from "./gameJS/projectiles";
+import { drawBullet, ballSpeed, resetBounceState } from "./gameJS/projectiles";
 
 import { physics, boundaries } from "./gameJS/physics";
 
@@ -35,7 +35,7 @@ export let
 export let 
     playerSize = 40,
     duckHeight = playerSize / 2,
-    playerNumber = 10;
+    playerNumber = 8;
 
 //World
 export let 
@@ -71,7 +71,7 @@ export let boss = {
     x: Math.random() * (windowWidth - 0) + 0,
     y: 0,
     dx: Math.random() * (3 - 1) + 1,
-    dy: Math.random() * (0.2 - 0) + 0,
+    dy: Math.random() * (3 - 1) + 1,
     health: 200,
     state: 'left',
     ammo: 100
@@ -90,6 +90,7 @@ setInterval(
 setInterval(
     function updateAI(){ 
         AI();
+        resetBounceState();
     }, 200);
 
 //Start boss spawn timer

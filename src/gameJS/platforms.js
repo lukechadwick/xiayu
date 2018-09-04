@@ -1,6 +1,8 @@
 import { 
     platformArray, 
-    gameWindow 
+    gameWindow, 
+    windowWidth,
+    windowHeight
 } from "../index";
 
 export function drawPlatform() {
@@ -26,13 +28,18 @@ export function drawPlatform() {
 }
 
 export function generatePlatform() {
-    for (let i = 0; i < 7; i++) {
-        let randomPoint = Math.random() * (i*100 - i*100) + i*100
-        platformArray.plat[i] = {
-            x: randomPoint,
-            endX: randomPoint + 50,
-            y: Math.random() * (200 - 80) + 80
+
+    for (let f = 0; f < windowHeight / 300; f++) {
+    
+        for (let i = 0; i < windowWidth / 50; i++) {
+            let randomPoint = Math.random() * (i*50 - i*50) + i*50
+            platformArray.plat[platformArray.plat.length] = {
+                x: randomPoint,
+                endX: randomPoint + 50,
+                y: Math.random() * (windowHeight - 80 - 50) + 50
+            }
         }
     }
     console.log('Platforms:', platformArray)
+
 }

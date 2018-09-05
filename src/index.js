@@ -100,41 +100,53 @@ setTimeout(
         bosstime = 1; 
     }, 60000);
 
+let gameReady = 0;
+
+function setupGame(){
+
+    
+
+}
+
 function drawFrame() {
     gameWindow.clearRect(0, 0, windowWidth, windowHeight);
     
-    if (bosstime == 1) {
-        if (boss.y < windowHeight + 100){
-        drawBoss();
-        bossBehavior();
-        }
+    if (gameReady == 0) {
+
     }
+    else{
+        if (bosstime == 1) {
+            if (boss.y < windowHeight + 100){
+            drawBoss();
+            bossBehavior();
+            }
+        }
 
-    drawHealthBar();
-    
-    physics();
+        drawHealthBar();
+        
+        physics();
 
-    boundaries();
+        boundaries();
 
-    bossHit();
+        bossHit();
 
-    //drawBackDrop();
-    bulletCollisionPlat()
+        //drawBackDrop();
+        bulletCollisionPlat()
 
-    drawPlatform();
+        drawPlatform();
 
-    bulletCollision();
+        bulletCollision();
 
-    drawPlayer();
+        drawPlayer();
 
-    hitDetection();
+        hitDetection();
 
-    isOnPlatform();
+        isOnPlatform();
 
-    drawBullet();
+        drawBullet();
 
-    ballSpeed();
-
+        ballSpeed();
+    }
     // call update when the browser is ready to draw again
     window.requestAnimationFrame(drawFrame);
 };

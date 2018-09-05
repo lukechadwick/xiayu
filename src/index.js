@@ -32,29 +32,10 @@ function createEventListeners() {
 }
 
 function worldSize(arg){
-    if (arg == 1)
-    {
-    windowHeight = 300,
-    windowWidth = 700
-    }
-    else 
-    if (arg == 2)
-    {
-    windowHeight = 450,
-    windowWidth = 1050
-    }
-    else 
-    if (arg == 3)
-    {
-    windowHeight = 600,
-    windowWidth = 1400
-    }
-    else 
-    if (arg == 4)
-    {
-    windowHeight = 750,
-    windowWidth = 1750
-    }
+    windowHeight = arg == 1 ? 300 :  arg == 2 ? 450 : arg == 3 ? 600 : 750;
+    windowWidth = arg == 1 ? 700 :  arg == 2 ? 1050 : arg == 3 ? 1400 : 1750;
+
+
     document.getElementById("jumbo").style.width = windowWidth + 50 +'px';
     gameWindow.canvas.height = windowHeight;
     gameWindow.canvas.width = windowWidth;

@@ -98,7 +98,7 @@ setTimeout(
     function(){ 
 
         bosstime = 1; 
-    }, 3000);
+    }, 60000);
 
 function drawFrame() {
     gameWindow.clearRect(0, 0, windowWidth, windowHeight);

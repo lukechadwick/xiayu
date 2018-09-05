@@ -9,7 +9,7 @@ import { createBullet } from "./projectiles";
 export function keyHandler(e) {
     var key_state = (event.type == "keydown") ? true : false;
 
-    e.preventDefault()
+    //e.preventDefault()
 
     for (let p = 0; p < playerNumber; p++) {
 

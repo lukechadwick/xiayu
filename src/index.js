@@ -22,6 +22,45 @@ document.addEventListener("keyup", keyHandler);
 export let 
     gameWindow = document.querySelector("canvas").getContext("2d");
 
+    document.addEventListener('DOMContentLoaded', createEventListeners)
+
+function createEventListeners() {
+    document.getElementById("ws0").onclick = function() {worldSize(1)};
+    document.getElementById("ws1").onclick = function() {worldSize(2)};
+    document.getElementById("ws2").onclick = function() {worldSize(3)};
+    document.getElementById("ws3").onclick = function() {worldSize(4)};
+}
+
+function worldSize(arg){
+    if (arg == 1)
+    {
+    windowHeight = 300,
+    windowWidth = 700
+    }
+    else 
+    if (arg == 2)
+    {
+    windowHeight = 450,
+    windowWidth = 1050
+    }
+    else 
+    if (arg == 3)
+    {
+    windowHeight = 600,
+    windowWidth = 1400
+    }
+    else 
+    if (arg == 4)
+    {
+    windowHeight = 750,
+    windowWidth = 1750
+    }
+    document.getElementById("jumbo").style.width = windowWidth + 50 +'px';
+    gameWindow.canvas.height = windowHeight;
+    gameWindow.canvas.width = windowWidth;
+    generatePlatform();
+}
+
 export let 
     controlState = {
         left: false,
@@ -35,7 +74,7 @@ export let
 export let 
     playerSize = 40,
     duckHeight = playerSize / 2,
-    playerNumber = 8;
+    playerNumber = 4;
 
 //World
 export let 
@@ -78,6 +117,7 @@ export let boss = {
 }
 
 //Build World Items
+drawSetupWindow()
 generatePlatform();
 makePlayer();
 
@@ -91,45 +131,30 @@ setInterval(
     function updateAI(){ 
         AI();
         resetBounceState();
+        
+        drawSetupWindow()
     }, 200);
 
 //Start boss spawn timer
 setTimeout(
     function(){ 
-
         bosstime = 1; 
     }, 60000);
 
-let gameReady = 0;
-
 export function setupGame(){
+    //Hide box after starting
+    document.getElementById('gameSetup').style.display = 'none'
 
-    gameReady = 1
+    //Set Players to input value
+    playerNumber = document.getElementById('botPlayerAmount').value
 
-
-    let myCanvas = document.getElementById("myCanvas")
-    var rect = myCanvas.getBoundingClientRect();
-    console.log(rect.top, rect.right, rect.bottom, rect.left);
-
-
-
-    let setupWindow = document.getElementById("gameSetup")
-        setupWindow.style.top = "rect.left" + 'px'
-        setupWindow.style.left = "740" + 'px'
-
-
-
-    //document.getElementById("gameSetup").style.display = "none";
-
+    generatePlatform();
+    makePlayer();
 }
 
 function drawFrame() {
     gameWindow.clearRect(0, 0, windowWidth, windowHeight);
-    
-    if (gameReady == 0) {
 
-    }
-    else{
         if (bosstime == 1) {
             if (boss.y < windowHeight + 100){
             drawBoss();
@@ -161,11 +186,21 @@ function drawFrame() {
         drawBullet();
 
         ballSpeed();
-    }
+    
     // call update when the browser is ready to draw again
     window.requestAnimationFrame(drawFrame);
 };
 drawFrame();
+
+function drawSetupWindow(){
+
+    let myCanvas = document.getElementById("myCanvas")
+    var rect = myCanvas.getBoundingClientRect();
+
+    let setupWindow = document.getElementById("gameSetup")
+        setupWindow.style.top = rect.top + (myCanvas.offsetHeight / 2) - (setupWindow.offsetHeight / 2) +  'px'
+        setupWindow.style.left = rect.left + (myCanvas.offsetWidth / 2) - (setupWindow.offsetWidth / 2) +  'px'
+}
 
 function drawBackDrop() {
 

@@ -17,7 +17,7 @@ canvas {
 }
 
 .row{
-    margin:0;;
+    margin:0;
 }
 
 .header{
@@ -35,21 +35,18 @@ canvas {
     background-color: rgba(0,0,0,0.6);
     box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.3);
     color: white;
-    font-family: Lato;
     padding: 10px;
 }
 
 .gameSetup {
-    height: 244px;
+    height: 242px;
     width: 450px;
     background-color: rgba(0,0,0,0.6);
     box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.3);
     border-radius: 20px;
     color: white;
     padding: 10px;
-    
-    position:absolute;
-
+    position: absolute;
 }
 
 .btnPad{

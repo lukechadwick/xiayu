@@ -2,9 +2,24 @@ import {
     playerNumber, 
     playerArray, 
     duckHeight, 
+    setupGame,
  } from "../index";
 
 import { createBullet } from "./projectiles";
+
+document.addEventListener('DOMContentLoaded', createEventListeners)
+
+
+
+function createEventListeners() {
+    var beginClick = document.getElementById("startGame");
+    beginClick.onclick = beginGame;
+}
+
+
+export function beginGame(){
+    setupGame();
+}
 
 export function keyHandler(e) {
     var key_state = (event.type == "keydown") ? true : false;

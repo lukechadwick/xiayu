@@ -102,9 +102,24 @@ setTimeout(
 
 let gameReady = 0;
 
-function setupGame(){
+export function setupGame(){
 
-    
+    gameReady = 1
+
+
+    let myCanvas = document.getElementById("myCanvas")
+    var rect = myCanvas.getBoundingClientRect();
+    console.log(rect.top, rect.right, rect.bottom, rect.left);
+
+
+
+    let setupWindow = document.getElementById("gameSetup")
+        setupWindow.style.top = "rect.left" + 'px'
+        setupWindow.style.left = "740" + 'px'
+
+
+
+    //document.getElementById("gameSetup").style.display = "none";
 
 }
 

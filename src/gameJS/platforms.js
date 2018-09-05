@@ -32,7 +32,7 @@ export function generatePlatform() {
     for (let f = 0; f < windowHeight / 300; f++) {
     
         for (let i = 0; i < windowWidth / 50; i++) {
-            let randomPoint = Math.random() * (i*50 - i*50) + i*50
+            let randomPoint = Math.random() * (i*55 - i*55) + i*55
             platformArray.plat[platformArray.plat.length] = {
                 x: randomPoint,
                 endX: randomPoint + 50,

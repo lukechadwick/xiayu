@@ -4,13 +4,14 @@ import {
  } from "../index";
 
  import { 
-    shoot
+    shoot,
+    isDucking
  } from "./controls";
 
 
 export function AI(){
     for (let p = 0; p < playerNumber; p++) {
-        if (p > 2)
+        if (p >= 0)
 
         //Ai Controls
         {
@@ -20,14 +21,13 @@ export function AI(){
         
             playerArray.players[p].rightState = Math.random() >= 0.5;
         
-            playerArray.players[p].duckState = Math.random() >= 0.7;
-
+            playerArray.players[p].duckState = Math.random() >= 0.9;
 
             if (!playerArray.players[p].reloading && (Math.random() >= 0.7))
             shoot(p)
-        
         }
     }
+    isDucking();
 }
 
 

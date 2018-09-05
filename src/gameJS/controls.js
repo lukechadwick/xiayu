@@ -47,7 +47,7 @@ export function shoot(num) {
     }
 }
 
-function isDucking() {
+export function isDucking() {
     for (let i = 0; i < playerNumber; i++) {
         playerArray.players[i].duckState ? 
         playerArray.players[i].height = duckHeight : playerArray.players[i].height = duckHeight * 2

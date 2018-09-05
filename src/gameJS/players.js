@@ -7,6 +7,7 @@ import {
 } from "../index";
 
 export function makePlayer() {
+    playerArray.players = [];
     for (let i = 0; i < playerNumber; i++) {
         playerArray.players[i] = {
             height: playerSize,

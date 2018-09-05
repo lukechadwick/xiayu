@@ -28,7 +28,7 @@ export function drawPlatform() {
 }
 
 export function generatePlatform() {
-
+    platformArray.plat = []
     for (let f = 0; f < windowHeight / 300; f++) {
     
         for (let i = 0; i < windowWidth / 50; i++) {

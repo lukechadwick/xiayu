@@ -1,6 +1,8 @@
 body {
     background: url(./assets/background.jpg);
     background-size: 150%;
+    display: flex;
+
 }
 
 canvas { 
@@ -8,7 +10,7 @@ canvas {
     background-size: cover;
     background-position-y: -50px;
     display: block;
-    margin: auto;
+    margin: auto 10px;;
 }
 
 .border{
@@ -26,7 +28,8 @@ canvas {
 
 .container{
     padding: 10px;
-    margin: auto;
+    margin:  auto;
+    display: contents;
 }
 
 .jumbotron {

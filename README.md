@@ -1,6 +1,6 @@
 # xiayu
 
-Personal project for school / Testbed for developing a game in Javascript using the canvas.
+Personal Project / Testbed for developing a game from scratch in Javascript / Canvas.
 
 
 Playable here: https://lukechadwick.github.io/xiayu/

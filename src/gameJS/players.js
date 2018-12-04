@@ -6,10 +6,11 @@ import {
 	windowWidth,
 	windowHeight
 } from '../index';
+import { realPlayers } from './AI';
 
 export function makePlayer() {
 	playerArray.players = [];
-	for (let i = 0; i < playerNumber; i++) {
+	for (let i = 0; i < playerNumber + realPlayers; i++) {
 		playerArray.players[i] = {
 			height: playerSize,
 			width: playerSize / 2,

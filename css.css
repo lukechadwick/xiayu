@@ -1,61 +1,60 @@
 body {
-    background: url(./assets/background.jpg);
-    background-size: 150%;
-    display: flex;
-
+	background: url(./assets/background.jpg);
+	background-size: 150%;
+	display: flex;
 }
 
-canvas { 
-    background: url(./assets/backdrop.jpg);
-    background-size: cover;
-    background-position-y: -50px;
-    display: block;
-    margin: auto 10px;;
+canvas {
+	background: url(./assets/backdrop.jpg);
+	background-size: cover;
+	background-position-y: -50px;
+	display: block;
+	margin: auto 10px;
 }
 
-.border{
-    border: solid;
-    border-radius: 10px;
+.border {
+	border: solid;
+	border-radius: 10px;
 }
 
-.row{
-    margin:0;
+.row {
+	margin: 0;
 }
 
-.header{
-    text-align: center;
+.header {
+	text-align: center;
 }
 
-.container{
-    padding: 10px;
-    margin:  auto;
-    display: contents;
+.container {
+	padding: 10px;
+	margin: auto;
+	display: contents;
 }
 
 .jumbotron {
-    margin: auto;
-    width: auto;
-    background-color: rgba(0,0,0,0.6);
-    box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.3);
-    color: white;
-    padding: 10px;
+	margin: auto;
+	width: auto;
+	background-color: rgba(0, 0, 0, 0.6);
+	box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.3);
+	color: white;
+	padding: 10px;
 }
 
 .gameSetup {
-    height: 242px;
-    width: 450px;
-    background-color: rgba(0,0,0,0.6);
-    box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.3);
-    border-radius: 20px;
-    color: white;
-    padding: 10px;
-    position: absolute;
+	height: 242px;
+	width: 450px;
+	background-color: rgba(0, 0, 0, 0.6);
+	box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.3);
+	border-radius: 20px;
+	color: white;
+	padding: 10px;
+	position: absolute;
 }
 
-.btnPad{
-    margin-bottom: 10px;
+.btnPad {
+	margin-bottom: 10px;
 }
 
-.radioPad{
-    margin-bottom: 13px;
+.radioPad {
+	margin-bottom: 13px;
 }

@@ -121,13 +121,23 @@ setTimeout(function() {
 
 export function setupGame() {
 	//Hide box after starting
-	// document.getElementById('gameSetup').style.display = 'none';
+	document.getElementById('gameSetup').style.display = 'none';
 
 	//Set Players to input value
 	playerNumber = Number(document.getElementById('botPlayerAmount').value);
 
 	generatePlatform();
 	makePlayer();
+}
+
+function checkWin() {
+	//Winner
+	if (playerArray.players.length == 1 && boss.health <= 0)
+		document.getElementById('winner').style.display = 'block';
+
+	//Game Over
+	if (playerArray.players.length == 0)
+		document.getElementById('gameOver').style.display = 'block';
 }
 
 function drawFrame() {
@@ -140,6 +150,8 @@ function drawFrame() {
 			bossBehavior();
 		}
 	}
+
+	checkWin();
 
 	drawHealthBar();
 
@@ -174,11 +186,20 @@ function drawSetupWindow() {
 	let myCanvas = document.getElementById('myCanvas');
 	var rect = myCanvas.getBoundingClientRect();
 
-	let setupWindow = document.getElementById('gameSetup');
-	setupWindow.style.top =
-		rect.top + myCanvas.offsetHeight / 2 - setupWindow.offsetHeight / 2 + 'px';
-	setupWindow.style.left =
-		rect.left + myCanvas.offsetWidth / 2 - setupWindow.offsetWidth / 2 + 'px';
+	let setupWindow = document.getElementsByClassName('gameSetup');
+
+	for (let i = 0; i < setupWindow.length; i++) {
+		setupWindow[i].style.top =
+			rect.top +
+			myCanvas.offsetHeight / 2 -
+			setupWindow[i].offsetHeight / 2 +
+			'px';
+		setupWindow[i].style.left =
+			rect.left +
+			myCanvas.offsetWidth / 2 -
+			setupWindow[i].offsetWidth / 2 +
+			'px';
+	}
 }
 
 function drawBackDrop() {}

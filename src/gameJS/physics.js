@@ -55,7 +55,7 @@ export function physics() {
 }
 
 export function boundaries() {
-	for (let i = 0; i < playerArray.players; i++) {
+	for (let i = 0; i < playerArray.players.length; i++) {
 		// if player is going off the left of the screen
 		if (playerArray.players[i].x < -playerSize) {
 			playerArray.players[i].x = -10;

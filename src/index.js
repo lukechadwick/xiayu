@@ -124,7 +124,7 @@ export function setupGame() {
 	// document.getElementById('gameSetup').style.display = 'none';
 
 	//Set Players to input value
-	playerNumber = document.getElementById('botPlayerAmount').value;
+	playerNumber = Number(document.getElementById('botPlayerAmount').value);
 
 	generatePlatform();
 	makePlayer();

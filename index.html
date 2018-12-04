@@ -1,115 +1,209 @@
 <!DOCTYPE html>
 <html>
+	<head>
+		<meta charset="utf-8" />
+		<title>下雨</title>
+		<link
+			href="https://fonts.googleapis.com/css?family=Lato:400,700"
+			rel="stylesheet"
+		/>
+		<link
+			href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+			crossorigin="anonymous"
+		/>
+		<link rel="stylesheet" href="css.css" />
+		<script
+			src="https://code.jquery.com/jquery-3.3.1.min.js"
+			integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+			integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+			crossorigin="anonymous"
+		></script>
+	</head>
 
-<head>
-	<meta charset="utf-8" />
-	<title>Game Test</title>
-	<link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
-	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-	<link rel="stylesheet" href="css.css">
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-</head>
+	<body>
+		<div class="container">
+			<div class="jumbotron" id="jumbo">
+				<h1 class="header">下雨</h1>
+				<canvas id="myCanvas"></canvas>
+				<h3 class="header">Controls:</h3>
 
-<body>
-
-	<div class="container">
-		<div class="jumbotron" id='jumbo'>
-			<h1 class="header">下雨</h1>
-			<canvas id="myCanvas"></canvas>
-			<h3 class="header">Controls:</h3>
-
-			<div class="row">
-				<div class="col-sm border">
-					<h4 class="header">Player 1</h4>
+				<div class="row">
+					<div class="col-sm border"><h4 class="header">Player 1</h4></div>
+					<div class="col-sm border"><h4 class="header">Player 2</h4></div>
 				</div>
-				<div class="col-sm border">
-					<h4 class="header">Player 2</h4>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm border">
-					<p>Up key: W</p>
-					<p>Duck key: S</p>
-					<p>Left key: A</p>
-					<p>Right key: D</p>
-					<p>Shoot key: SpaceBar</p>
-				</div>
-				<div class="col-sm border">
-					<p>Up key: Up</p>
-					<p>Duck key: Down</p>
-					<p>Left key: Left</p>
-					<p>Right key: Right</p>
-					<p>Shoot key: Shift</p>
+				<div class="row">
+					<div class="col-sm border">
+						<p>Up key: W</p>
+						<p>Duck key: S</p>
+						<p>Left key: A</p>
+						<p>Right key: D</p>
+						<p>Shoot key: SpaceBar</p>
+					</div>
+					<div class="col-sm border">
+						<p>Up key: Up</p>
+						<p>Duck key: Down</p>
+						<p>Left key: Left</p>
+						<p>Right key: Right</p>
+						<p>Shoot key: Shift</p>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 
-	<div class="gameSetup" id="gameSetup">
-		<div class="row">
-			<div class="col-sm border">
-				<span>Game World Size:</span>
-				<div class="btn-group btn-group-toggle radioPad" data-toggle="buttons">
-					<label class="btn btn-secondary" id="ws0">
-						<input type="radio" name="options" id="option1" autocomplete="off"> S
-					</label>
-					<label class="btn btn-secondary" id="ws1">
-						<input type="radio" name="options" id="option2" autocomplete="off"> M
-					</label>
-					<label class="btn btn-secondary" id="ws2">
-						<input type="radio" name="options" id="option1" autocomplete="off"> L
-					</label>
-					<label class="btn btn-secondary" id="ws3">
-						<input type="radio" name="options" id="option2" autocomplete="off"> XL
-					</label>
-				</div>
-				<span>Players:</span>
-				<div class="btn-group btn-group-toggle radioPad" data-toggle="buttons">
-					<label class="btn btn-secondary" id="rp0">
-						<input type="radio" name="options" id="pOption0" autocomplete="off"> 0
-					</label>
-					<label class="btn btn-secondary" id="rp1">
-						<input type="radio" name="options" id="pOption1" autocomplete="off"> 1
-					</label>
-					<label class="btn btn-secondary" id="rp2">
-						<input type="radio" name="options" id="pOption2" autocomplete="off"> 2
-					</label>
-				</div>
-				<br />
-				<div class="input-group input-group-sm mb-3">
-					<div class="input-group-prepend">
-						<span class="input-group-text" id="inputGroup-sizing-sm">Bot Players:</span>
+		<div class="gameSetup" id="gameSetup">
+			<div class="row">
+				<div class="col-sm border">
+					<span>Game World Size:</span>
+					<div
+						class="btn-group btn-group-toggle radioPad"
+						data-toggle="buttons"
+					>
+						<label class="btn btn-secondary" id="ws0">
+							<input
+								type="radio"
+								name="options"
+								id="option1"
+								autocomplete="off"
+							/>
+							S
+						</label>
+						<label class="btn btn-secondary" id="ws1">
+							<input
+								type="radio"
+								name="options"
+								id="option2"
+								autocomplete="off"
+							/>
+							M
+						</label>
+						<label class="btn btn-secondary" id="ws2">
+							<input
+								type="radio"
+								name="options"
+								id="option1"
+								autocomplete="off"
+							/>
+							L
+						</label>
+						<label class="btn btn-secondary" id="ws3">
+							<input
+								type="radio"
+								name="options"
+								id="option2"
+								autocomplete="off"
+							/>
+							XL
+						</label>
 					</div>
-					<input type="text" id="botPlayerAmount" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-				</div>
-				<input id="startGame" type="button" value="Start Game" class="btn btn-primary btnPad">
-			</div>
-			<div class="col-sm border">
-				<p>Network Options:</p>
-				<span>I am a:</span>
-				<div class="btn-group btn-group-toggle" data-toggle="buttons">
-					<label class="btn btn-secondary">
-						<input type="radio" name="options" id="option1" autocomplete="off"> Client
-					</label>
-					<label class="btn btn-secondary">
-						<input type="radio" name="options" id="option2" autocomplete="off"> Server
-					</label>
-				</div>
-				<br />
-				<br />
-				<div class="input-group input-group-sm mb-3">
-					<div class="input-group-prepend">
-						<span class="input-group-text" id="inputGroup-sizing-sm">IP:</span>
+					<span>Players:</span>
+					<div
+						class="btn-group btn-group-toggle radioPad"
+						data-toggle="buttons"
+					>
+						<label class="btn btn-secondary" id="rp0">
+							<input
+								type="radio"
+								name="options"
+								id="pOption0"
+								autocomplete="off"
+							/>
+							0
+						</label>
+						<label class="btn btn-secondary" id="rp1">
+							<input
+								type="radio"
+								name="options"
+								id="pOption1"
+								autocomplete="off"
+							/>
+							1
+						</label>
+						<label class="btn btn-secondary" id="rp2">
+							<input
+								type="radio"
+								name="options"
+								id="pOption2"
+								autocomplete="off"
+							/>
+							2
+						</label>
 					</div>
-					<input type="text" value="127.0.0.1:1337" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+					<br />
+					<div class="input-group input-group-sm mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="inputGroup-sizing-sm"
+								>Bot Players:</span
+							>
+						</div>
+						<input
+							type="text"
+							id="botPlayerAmount"
+							class="form-control"
+							aria-label="Small"
+							aria-describedby="inputGroup-sizing-sm"
+						/>
+					</div>
+					<input
+						id="startGame"
+						type="button"
+						value="Start Game"
+						class="btn btn-primary btnPad"
+					/>
 				</div>
-				<input type="button" value="Connect to Game" class="btn btn-primary btnPad">
+				<div class="col-sm border">
+					<p>Network Options:</p>
+					<span>I am a:</span>
+					<div class="btn-group btn-group-toggle" data-toggle="buttons">
+						<label class="btn btn-secondary">
+							<input
+								type="radio"
+								name="options"
+								id="option1"
+								autocomplete="off"
+							/>
+							Client
+						</label>
+						<label class="btn btn-secondary">
+							<input
+								type="radio"
+								name="options"
+								id="option2"
+								autocomplete="off"
+							/>
+							Server
+						</label>
+					</div>
+					<br />
+					<br />
+					<div class="input-group input-group-sm mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="inputGroup-sizing-sm"
+								>IP:</span
+							>
+						</div>
+						<input
+							type="text"
+							value="127.0.0.1:1337"
+							class="form-control"
+							aria-label="Small"
+							aria-describedby="inputGroup-sizing-sm"
+						/>
+					</div>
+					<input
+						type="button"
+						value="Connect to Game"
+						class="btn btn-primary btnPad"
+					/>
+				</div>
 			</div>
 		</div>
-	</div>
 
-	<script src="./dist/main.js"></script>
-</body>
-
+		<script src="./dist/main.js"></script>
+	</body>
 </html>

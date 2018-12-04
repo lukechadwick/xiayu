@@ -33,7 +33,6 @@ export function makePlayer() {
 			shootState: false
 		};
 	}
-	console.log('Players:', playerArray);
 }
 
 export function drawPlayer() {
@@ -156,8 +155,6 @@ export function drawPlayer() {
 
 		if (playerArray.players[i].y > windowHeight) {
 			let deadPlayers = playerArray.players.splice(i, 1);
-			// console.log('Player', i, 'Killed');
-			// console.log(playerArray.players.length, 'players remaining.');
 		}
 	}
 }

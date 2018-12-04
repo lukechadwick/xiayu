@@ -24,12 +24,10 @@ function bossAttack() {
 
 function wallCollisionDetection() {
 	if (boss.x + boss.dx > windowWidth + 10 || boss.x + boss.dx < -130) {
-		console.log('Boss: Changing X direction');
 		boss.dx = -boss.dx;
 	}
 	if (boss.y + boss.dy > windowHeight - 100 || boss.y + boss.dy < -50) {
 		boss.dy = -boss.dy;
-		console.log('Boss: Changing Y direction');
 	}
 }
 

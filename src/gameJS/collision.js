@@ -11,12 +11,7 @@ export function hitDetection() {
 			) {
 				playerArray.players[[j]].health -= 10;
 				bulletArray.bullets[[i]].y = bulletArray.bullets[[i]].y + 1000;
-				// console.log(
-				// 	'Player ' +
-				// 		[j] +
-				// 		' Hit, Current Health: ' +
-				// 		playerArray.players[[j]].health
-				// );
+				// console.log('Player ' + [j] + ' Hit, Current Health: ' + playerArray.players[[j]].health);
 			}
 		}
 	}
@@ -92,7 +87,6 @@ export function bossHit() {
 				if (boss.ammo == 0 && bulletArray.bullets[i].origin != 1) {
 					boss.health -= 10;
 					bulletArray.bullets[i].y = bulletArray.bullets[i].y + 1000;
-					// console.log('Boss ' + ' Hit, Current Health: ' + boss.health);
 				}
 			}
 		}

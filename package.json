@@ -7,7 +7,7 @@
 	"scripts": {
 		"build": "yarn webpack --mode production",
 		"dev": "yarn webpack --mode development --watch",
-		"push": "git push origin master"
+		"deploy": "yarn webpack --mode production & git push origin master"
 	},
 	"dependencies": {},
 	"devDependencies": {

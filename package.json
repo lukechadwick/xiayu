@@ -6,7 +6,7 @@
 	"license": "MIT",
 	"scripts": {
 		"build": "yarn webpack --mode production",
-		"dev": "yarn webpack --mode development",
+		"dev": "yarn webpack --mode development --watch",
 		"push": "git push origin master"
 	},
 	"dependencies": {},

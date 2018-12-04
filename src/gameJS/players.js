@@ -3,7 +3,8 @@ import {
 	playerNumber,
 	playerSize,
 	gameWindow,
-	windowWidth
+	windowWidth,
+	windowHeight
 } from '../index';
 
 export function makePlayer() {
@@ -152,8 +153,11 @@ export function drawPlayer() {
 			);
 			gameWindow.stroke();
 		}
-		if (playerArray.players[i].health <= 0) {
+
+		if (playerArray.players[i].y > windowHeight) {
 			let deadPlayers = playerArray.players.splice(i, 1);
+			// console.log('Player', i, 'Killed');
+			// console.log(playerArray.players.length, 'players remaining.');
 		}
 	}
 }

@@ -7,10 +7,18 @@ document.addEventListener('DOMContentLoaded', createEventListeners);
 function createEventListeners() {
 	var beginClick = document.getElementById('startGame');
 	beginClick.onclick = beginGame;
+	var restartClick = document.getElementById('restartGame');
+	restartClick.onclick = restartGame;
+	var restartClickWin = document.getElementById('restartGameWin');
+	restartClickWin.onclick = restartGame;
 }
 
 export function beginGame() {
 	setupGame();
+}
+
+function restartGame() {
+	window.location.reload(false);
 }
 
 export function keyHandler(e) {

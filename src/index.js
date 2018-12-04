@@ -133,16 +133,13 @@ export function setupGame() {
 function drawFrame() {
 	gameWindow.clearRect(0, 0, windowWidth, windowHeight);
 
+	//If one minute has passed in game, begin boss behavior
 	if (bosstime == 1) {
 		if (boss.y < windowHeight + 100) {
 			drawBoss();
 			bossBehavior();
 		}
 	}
-
-	// for (let i = 0; i < playerArray.players.length; i++) {
-
-	// }
 
 	drawHealthBar();
 

@@ -58,3 +58,15 @@ canvas {
 .radioPad {
 	margin-bottom: 13px;
 }
+
+#gameOver {
+	display: none;
+}
+
+#winner {
+	display: none;
+}
+
+.center {
+	text-align: center;
+}

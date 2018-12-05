@@ -13,8 +13,9 @@ export function bossBehavior() {
   gameWindow.fillStyle = countDown > 5 ? 'Black' : 'red';
   gameWindow.font = '15px Arial';
 
-  //Draw counter until boss is ready
+  //Draw counter until boss is ready, prevent ammo stocking up before boss spawns
   if (countDown > 0) {
+    boss.ammo = 0;
     gameWindow.fillText('Boss Timer:' + countDown, windowWidth / 2 - 40, 15);
   }
 

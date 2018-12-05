@@ -155,6 +155,7 @@ function drawFrame() {
   if (bossTime == 1) {
     if (boss.y < windowHeight + 100) {
       bossBehavior();
+      // bossHit();
     }
   }
 
@@ -165,8 +166,6 @@ function drawFrame() {
   physics();
 
   boundaries();
-
-  bossHit();
 
   bulletCollisionPlat();
 

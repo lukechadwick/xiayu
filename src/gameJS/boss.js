@@ -1,6 +1,7 @@
 import { boss, gameWindow, windowWidth, windowHeight } from '../index';
 
 import { createBullet } from './projectiles';
+import { bossHit } from './collision';
 let startGameTime = 0;
 let countDown = 0;
 
@@ -28,6 +29,8 @@ export function bossBehavior() {
     bossAttack();
 
     drawBoss();
+
+    bossHit();
   }
 }
 

@@ -5,16 +5,20 @@ let startGameTime = 0;
 let countDown = 0;
 
 export function bossBehavior() {
+  //Set current time and begin countdown
   if (startGameTime == 0) startGameTime = Date.now();
-  countDown = 10 - Math.floor((Date.now() - startGameTime) / 1000);
+  countDown = 60 - Math.floor((Date.now() - startGameTime) / 1000);
 
+  //Countdown text settings
   gameWindow.fillStyle = countDown > 5 ? 'Black' : 'red';
   gameWindow.font = '15px Arial';
 
+  //Draw counter until boss is ready
   if (countDown > 0) {
     gameWindow.fillText('Boss Timer:' + countDown, windowWidth / 2 - 40, 15);
   }
 
+  //Remove counter and begin boss routines
   if (countDown <= 0) {
     moveBoss();
 
@@ -26,6 +30,7 @@ export function bossBehavior() {
   }
 }
 
+//Control boss movements
 function moveBoss() {
   if (boss.health > 0) {
     boss.x += boss.dx;
@@ -34,17 +39,19 @@ function moveBoss() {
 }
 
 function bossAttack() {
+  //Fire if boss has ammo
   if (boss.ammo > 0) {
     boss.ammo--;
     createBullet('b');
   }
 
-  //Don't go down without a fight
+  //Don't go down without a fight, if boss is dying give a million ammo
   if (boss.health <= 0) {
     boss.ammo = 1000000;
   }
 }
 
+//Boss will bounce off boundaries to keep inside game world
 function wallCollisionDetection() {
   if (boss.x + boss.dx > windowWidth + 10 || boss.x + boss.dx < -130) {
     boss.dx = -boss.dx;
@@ -53,8 +60,6 @@ function wallCollisionDetection() {
     boss.dy = -boss.dy;
   }
 }
-
-export function bossCountdown(count) {}
 
 export function drawBoss() {
   let bossImage = new Image();

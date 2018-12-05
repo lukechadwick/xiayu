@@ -46,6 +46,7 @@ export function createBullet(num) {
   }
 }
 
+//This will reset the bounce state, to prevent the balls constantly bouncing off each other
 export function resetBounceState() {
   bulletArray.bullets.forEach(element => {
     element.hasBounced = 0;
@@ -74,13 +75,15 @@ export function drawBullet() {
       gameWindow.strokeStyle = 'black';
       gameWindow.stroke();
       gameWindow.closePath();
-    } else {
-      //Cull offscreen bullets from array
+    }
+    //Cull offscreen bullets from array
+    else {
       let deadBullets = bulletArray.bullets.splice(i, 1);
     }
   }
 }
 
+//Bullet velocity
 export function ballSpeed() {
   for (let i = 0; i < bulletArray.bullets.length; i++) {
     bulletArray.bullets[i].x += bulletArray.bullets[i].dx;

@@ -1,41 +1,67 @@
 import { boss, gameWindow, windowWidth, windowHeight } from '../index';
 
 import { createBullet } from './projectiles';
+let startGameTime = 0;
+let countDown = 0;
 
 export function bossBehavior() {
-	moveBoss();
+  if (startGameTime == 0) startGameTime = Date.now();
+  countDown = 10 - Math.floor((Date.now() - startGameTime) / 1000);
 
-	wallCollisionDetection();
+  gameWindow.fillStyle = countDown > 5 ? 'Black' : 'red';
+  gameWindow.font = '15px Arial';
 
-	bossAttack();
+  if (countDown > 0) {
+    gameWindow.fillText('Boss Timer:' + countDown, windowWidth / 2 - 40, 15);
+  }
+
+  if (countDown <= 0) {
+    moveBoss();
+
+    wallCollisionDetection();
+
+    bossAttack();
+
+    drawBoss();
+  }
 }
 
 function moveBoss() {
-	boss.x += boss.dx;
-	boss.y += boss.dy;
+  if (boss.health > 0) {
+    boss.x += boss.dx;
+    boss.y += boss.dy;
+  }
 }
 
 function bossAttack() {
-	if (boss.ammo > 0) {
-		boss.ammo--;
-		createBullet('b');
-	}
+  if (boss.ammo > 0) {
+    boss.ammo--;
+    createBullet('b');
+  }
+
+  //Don't go down without a fight
+  if (boss.health <= 0) {
+    boss.ammo = 1000000;
+  }
 }
 
 function wallCollisionDetection() {
-	if (boss.x + boss.dx > windowWidth + 10 || boss.x + boss.dx < -130) {
-		boss.dx = -boss.dx;
-	}
-	if (boss.y + boss.dy > windowHeight - 100 || boss.y + boss.dy < -50) {
-		boss.dy = -boss.dy;
-	}
+  if (boss.x + boss.dx > windowWidth + 10 || boss.x + boss.dx < -130) {
+    boss.dx = -boss.dx;
+  }
+  if (boss.y + boss.dy > windowHeight - 100 || boss.y + boss.dy < -50) {
+    boss.dy = -boss.dy;
+  }
 }
 
+export function bossCountdown(count) {}
+
 export function drawBoss() {
-	let drawing = new Image();
+  let bossImage = new Image();
 
-	if (boss.ammo == 0) drawing.src = './assets/boss.png';
-	else drawing.src = './assets/bossGreen.png';
+  //Change color of boss when reloading/vulnerable
+  bossImage.src =
+    boss.ammo == 0 ? './assets/boss.png' : './assets/bossGreen.png';
 
-	gameWindow.drawImage(drawing, boss.x, boss.y);
+  gameWindow.drawImage(bossImage, boss.x, boss.y);
 }

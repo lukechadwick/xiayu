@@ -7,7 +7,6 @@ import {
   hitDetection,
   bulletCollision,
   isOnPlatform,
-  bossHit,
   bulletCollisionPlat
 } from './gameJS/collision';
 import { drawHealthBar } from './gameJS/healthbars';
@@ -78,6 +77,9 @@ gameWindow.canvas.height = windowHeight;
 gameWindow.canvas.width = windowWidth;
 
 //Arrays
+// ----------------------------------------------------
+//These things should be synced over the network
+
 export let bulletArray = {
   bullets: []
 };
@@ -101,6 +103,7 @@ export let boss = {
   ammo: 100
 };
 
+//------------------------------------------------------------
 //Build World on load
 drawSetupWindow();
 generatePlatform();

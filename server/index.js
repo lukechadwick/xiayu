@@ -37,3 +37,10 @@ io.on('connection', function(socket) {
     io.emit('bossSync', msg);
   });
 });
+
+io.on('connection', function(socket) {
+  socket.on('platformSync', function(msg) {
+    // console.log('packet: ' + msg);
+    io.emit('platformSync', msg);
+  });
+});

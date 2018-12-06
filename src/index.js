@@ -12,6 +12,7 @@ import {
 import { drawHealthBar } from './gameJS/healthbars';
 import { bossBehavior } from './gameJS/boss';
 import { AI } from './gameJS/AI';
+import { listen, send } from './gameJS/network';
 
 //Setup hotkey listener
 document.addEventListener('keydown', keyHandler);
@@ -161,6 +162,9 @@ function drawFrame() {
       // bossHit();
     }
   }
+
+  listen();
+  send();
 
   checkWin();
 

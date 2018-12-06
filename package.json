@@ -1,17 +1,20 @@
 {
-	"name": "xiayu",
-	"version": "1.0.0",
-	"main": "index.js",
-	"repository": "https://github.com/lukechadwick/xiayu",
-	"license": "MIT",
-	"scripts": {
-		"build": "yarn webpack --mode production",
-		"dev": "yarn webpack --mode development --watch",
-		"deploy": "yarn webpack --mode production & git push origin master"
-	},
-	"dependencies": {},
-	"devDependencies": {
-		"webpack": "^4.17.1",
-		"webpack-cli": "^3.1.0"
-	}
+  "name": "xiayu",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/lukechadwick/xiayu",
+  "license": "MIT",
+  "scripts": {
+    "build": "yarn webpack --mode production",
+    "dev": "yarn webpack --mode development --watch",
+    "deploy": "yarn webpack --mode production & git push origin master"
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "socket.io": "^2.2.0"
+  },
+  "devDependencies": {
+    "webpack": "^4.17.1",
+    "webpack-cli": "^3.1.0"
+  }
 }

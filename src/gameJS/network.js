@@ -1,15 +1,42 @@
-//Net Code
+import { playerArray, bulletArray, boss } from '../index';
+
+const io = require('socket.io-client');
+const socket = io.connect('http://localhost:3000');
+
+let client = 0;
+
+socket.on('playerSync', function(msg) {
+  // console.log(msg);
+  if (client == 1) playerArray.players = msg;
+});
+
+// socket.on('projectileSync', function(msg) {
+//   // console.log(msg);
+//   bulletArray.bullets = msg;
+// });
+
+// socket.on('playerSync', function(msg) {
+//   // console.log(msg);
+//   boss = msg;
+// });
 
 //Have a listen service here if server
-function listen() {
+export function listen() {
   //sockets listen
-  console.log('Recieving Packet:');
+  if (client == 1) {
+    // console.log('Recieving Packet:');
+  }
 }
 
 //Have a sending service here if client
-function send() {
+export function send() {
   //sockets send
-  console.log('Sending Packet:');
+  // console.log('Sending Packet:');
+  if (client == 0) {
+    socket.emit('playerSync', playerArray.players);
+    socket.emit('projectileSync', bulletArray);
+    socket.emit('bossSync', boss);
+  }
 }
 
 //List of things to sync in order of priority

@@ -12,7 +12,7 @@ import {
 import { drawHealthBar } from './gameJS/healthbars';
 import { bossBehavior } from './gameJS/boss';
 import { AI } from './gameJS/AI';
-import { listen, send } from './gameJS/network';
+import { send } from './gameJS/network';
 
 //Setup hotkey listener
 document.addEventListener('keydown', keyHandler);
@@ -159,12 +159,8 @@ function drawFrame() {
   if (bossTime == 1) {
     if (boss.y < windowHeight + 100) {
       bossBehavior();
-      // bossHit();
     }
   }
-
-  listen();
-  send();
 
   checkWin();
 
@@ -189,6 +185,9 @@ function drawFrame() {
   drawBullet();
 
   ballSpeed();
+
+  //send data over network
+  send();
 
   // call update when the browser is ready to draw again
   window.requestAnimationFrame(drawFrame);

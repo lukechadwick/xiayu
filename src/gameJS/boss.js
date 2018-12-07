@@ -2,15 +2,21 @@ import { boss, gameWindow, windowWidth, windowHeight } from '../index';
 
 import { createBullet } from './projectiles';
 import { bossHit } from './collision';
-let startGameTime = 0;
-let countDown = 0;
+
+export let startGameTime = 0;
+export let countDown = 0;
+
+export function setTime(start, countdown) {
+  startGameTime = start;
+  countDown = countdown;
+}
 
 export function bossBehavior() {
   //Set current time and begin countdown
   if (startGameTime == 0) startGameTime = Date.now();
   countDown = 60 - Math.floor((Date.now() - startGameTime) / 1000);
 
-  //Countdown text settings
+  //countDown text settings
   gameWindow.fillStyle = countDown > 5 ? 'Black' : 'red';
   gameWindow.font = '15px Arial';
 

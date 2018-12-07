@@ -6,36 +6,41 @@ const socket = io.connect('http://localhost:3000');
 let client = 0;
 
 document.addEventListener('DOMContentLoaded', createEventListeners);
-
 function createEventListeners() {
-  //Retrieve amount of real players from game setup window
-  document.getElementById('rp0').onclick = function() {
+  //Set client/server flag
+  document.getElementById('client').onclick = function() {
     client = 1;
   };
-  document.getElementById('rp1').onclick = function() {
+  document.getElementById('server').onclick = function() {
     client = 0;
   };
 }
 
 socket.on('playerSync', function(msg) {
-  // console.log(msg);
   if (client == 1) playerArray.players = msg;
 });
 
 socket.on('projectileSync', function(msg) {
-  // console.log(msg);
   if (client == 1) bulletArray.bullets = msg;
 });
 
 socket.on('platformSync', function(msg) {
-  // console.log(msg);
   if (client == 1) platformArray.plat = msg;
 });
 
-// socket.on('playerSync', function(msg) {
-//   // console.log(msg);
-//   boss = msg;
-// });
+socket.on('bossSync', function(msg) {
+  // console.log(msg);
+
+  if (client == 1) {
+    boss.x = msg.x;
+    boss.y = msg.y;
+    boss.ammo = msg.ammo;
+    boss.dx = msg.dx;
+    boss.dy = msg.dy;
+    boss.health = msg.health;
+    boss.state = msg.state;
+  }
+});
 
 //Have a listen service here if server
 export function listen() {

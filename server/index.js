@@ -19,28 +19,30 @@ io.on('connection', function(socket) {
 
 io.on('connection', function(socket) {
   socket.on('playerSync', function(msg) {
-    // console.log('packet: ' + msg);
     io.emit('playerSync', msg);
   });
 });
 
 io.on('connection', function(socket) {
   socket.on('projectileSync', function(msg) {
-    // console.log('packet: ' + msg);
     io.emit('projectileSync', msg);
   });
 });
 
 io.on('connection', function(socket) {
   socket.on('bossSync', function(msg) {
-    // console.log('packet: ' + msg);
     io.emit('bossSync', msg);
   });
 });
 
 io.on('connection', function(socket) {
   socket.on('platformSync', function(msg) {
-    // console.log('packet: ' + msg);
     io.emit('platformSync', msg);
+  });
+});
+
+io.on('connection', function(socket) {
+  socket.on('gameSync', function(msg) {
+    io.emit('gameSync', msg);
   });
 });

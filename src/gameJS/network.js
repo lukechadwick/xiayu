@@ -1,4 +1,5 @@
 import { playerArray, bulletArray, boss, platformArray } from '../index';
+import { setTime, countDown, startGameTime } from './boss';
 
 const io = require('socket.io-client');
 const socket = io.connect('http://localhost:3000');
@@ -16,21 +17,17 @@ function createEventListeners() {
   };
 }
 
+//Listeners for client
 socket.on('playerSync', function(msg) {
   if (client == 1) playerArray.players = msg;
 });
-
 socket.on('projectileSync', function(msg) {
   if (client == 1) bulletArray.bullets = msg;
 });
-
 socket.on('platformSync', function(msg) {
   if (client == 1) platformArray.plat = msg;
 });
-
 socket.on('bossSync', function(msg) {
-  // console.log(msg);
-
   if (client == 1) {
     boss.x = msg.x;
     boss.y = msg.y;
@@ -42,40 +39,22 @@ socket.on('bossSync', function(msg) {
   }
 });
 
-//Have a listen service here if server
-export function listen() {
-  //sockets listen
+socket.on('gameSync', function(msg) {
   if (client == 1) {
-    // console.log('Recieving Packet:');
+    setTime(msg.startGameTime, msg.countDown);
   }
-}
+});
 
 //Have a sending service here if client
 export function send() {
   //sockets send
-  // console.log('Sending Packet:');
   if (client == 0) {
     socket.emit('playerSync', playerArray.players);
     socket.emit('projectileSync', bulletArray.bullets);
     socket.emit('platformSync', platformArray.plat);
 
     socket.emit('bossSync', boss);
+
+    socket.emit('gameSync', { countDown, startGameTime });
   }
 }
-
-//List of things to sync in order of priority
-//player array
-//platform array
-//controls/input state
-//projectile array
-//boss position
-//window size
-
-//If player is a client, the local arrays will be ignored or be overwritten and instead by used
-//by those coming through the network as the packets come through
-
-//Game runs at 60 fps so theoretically the updates will need to sync every 16.7ms, should be fine for
-//LAN connections, unsure how this will behave under connections with higher latency
-
-//Should eventually create a notification/network status for the client to let know when a client/server connects
-//can use console in the meantime

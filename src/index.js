@@ -136,14 +136,12 @@ function checkWin() {
     boss.y > windowHeight
   )
     document.getElementById('winner').style.display = 'block';
-  else document.getElementById('winner').style.display = 'hidden';
+  else document.getElementById('winner').style.display = 'none';
 
   //Losing conditions / Game Over
-  if (playerArray.players.length == 0) {
+  if (playerArray.players.length == 0)
     document.getElementById('gameOver').style.display = 'block';
-  } else {
-    document.getElementById('gameOver').style.display = 'hidden';
-  }
+  else document.getElementById('gameOver').style.display = 'none';
 }
 
 //This will execute every frame

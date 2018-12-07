@@ -2,12 +2,17 @@ import { playerArray, bulletArray, boss, platformArray } from '../index';
 import { setTime, countDown, startGameTime } from './boss';
 
 const io = require('socket.io-client');
-const socket = io.connect('http://127.0.0.1:1337');
+let socket = io.connect('http://' + document.getElementById('ipAddress').value);
 
 export let client = 2;
 
 document.addEventListener('DOMContentLoaded', createEventListeners);
 function createEventListeners() {
+  //Change IP address
+  document.getElementById('connectToGame').onclick = function() {
+    socket.io.uri = 'http://' + document.getElementById('ipAddress').value;
+  };
+
   //Set client/server flag
   document.getElementById('client').onclick = function() {
     client = 1;
@@ -54,9 +59,7 @@ export function send() {
     socket.emit('playerSync', playerArray.players);
     socket.emit('projectileSync', bulletArray.bullets);
     socket.emit('platformSync', platformArray.plat);
-
     socket.emit('bossSync', boss);
-
     socket.emit('gameSync', { countDown, startGameTime });
   }
 }

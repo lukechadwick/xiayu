@@ -9,33 +9,37 @@ export let client = 2;
 document.addEventListener('DOMContentLoaded', createEventListeners);
 function createEventListeners() {
   //Change IP address
-  document.getElementById('connectToGame').onclick = function() {
+  document.getElementById('connectToGame').onclick = () => {
     socket.io.uri = 'http://' + document.getElementById('ipAddress').value;
   };
 
   //Set client/server flag
-  document.getElementById('client').onclick = function() {
+  document.getElementById('client').onclick = () => {
     client = 1;
   };
-  document.getElementById('server').onclick = function() {
+  document.getElementById('server').onclick = () => {
     client = 0;
   };
 }
 
 //Listeners for client
-socket.on('playerSync', function(msg) {
+socket.on('playerSync', msg => {
   if (client == 1) playerArray.players = msg;
 });
-socket.on('projectileSync', function(msg) {
+socket.on('projectileSync', msg => {
   if (client == 1) bulletArray.bullets = msg;
 });
-socket.on('platformSync', function(msg) {
+socket.on('platformSync', msg => {
   if (client == 1) platformArray.plat = msg;
 });
-socket.on('controlSync', function(msg) {
-  if (client == 1) platformArray.plat = msg;
+
+socket.on('controlSync', msg => {
+  if (client == 0) {
+    //if server listen for input commands
+  }
 });
-socket.on('bossSync', function(msg) {
+
+socket.on('bossSync', msg => {
   if (client == 1) {
     boss.x = msg.x;
     boss.y = msg.y;
@@ -46,7 +50,7 @@ socket.on('bossSync', function(msg) {
     boss.state = msg.state;
   }
 });
-socket.on('gameSync', function(msg) {
+socket.on('gameSync', msg => {
   if (client == 1) {
     setTime(msg.startGameTime, msg.countDown);
   }
@@ -61,5 +65,9 @@ export function send() {
     socket.emit('platformSync', platformArray.plat);
     socket.emit('bossSync', boss);
     socket.emit('gameSync', { countDown, startGameTime });
+  }
+
+  if (client == 1) {
+    socket.emit('controlSync');
   }
 }

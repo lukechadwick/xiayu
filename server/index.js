@@ -2,7 +2,7 @@ const express = require('express');
 const server = express();
 const port = process.env.PORT || 1337;
 
-app = server.listen(port, function() {
+app = server.listen(port, () => {
   console.log('Listening on port:', port);
 });
 
@@ -11,27 +11,30 @@ var socket = require('socket.io');
 io = socket(app);
 
 //Log when user connects/disconnects
-io.on('connection', function(socket) {
+io.on('connection', socket => {
   console.log('User connected from:', socket.handshake.headers.host);
-  socket.on('disconnect', function() {
+  socket.on('disconnect', () => {
     socket.disconnect();
   });
 });
 
-io.on('connection', function(socket) {
-  socket.on('playerSync', function(msg) {
+io.on('connection', socket => {
+  socket.on('playerSync', msg => {
     io.emit('playerSync', msg);
   });
-  socket.on('projectileSync', function(msg) {
+  socket.on('projectileSync', msg => {
     io.emit('projectileSync', msg);
   });
-  socket.on('bossSync', function(msg) {
+  socket.on('bossSync', msg => {
     io.emit('bossSync', msg);
   });
-  socket.on('platformSync', function(msg) {
+  socket.on('platformSync', msg => {
     io.emit('platformSync', msg);
   });
-  socket.on('gameSync', function(msg) {
+  socket.on('gameSync', msg => {
+    io.emit('gameSync', msg);
+  });
+  socket.on('controlSync', msg => {
     io.emit('gameSync', msg);
   });
 });

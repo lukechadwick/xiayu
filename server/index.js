@@ -1,7 +1,6 @@
-// require('dotenv').config();
-const server = require('./server');
-
-const port = process.env.PORT || 3000;
+const express = require('express');
+const server = express();
+const port = process.env.PORT || 1337;
 
 app = server.listen(port, function() {
   console.log('Listening on port:', port);
@@ -13,7 +12,7 @@ io = socket(app);
 
 //Log when user connects/disconnects
 io.on('connection', function(socket) {
-  console.log('user connected');
+  console.log('User connected from:', socket.handshake.headers.host);
   socket.on('disconnect', function() {});
 });
 

@@ -1,7 +1,6 @@
 import { playerArray, duckHeight, setupGame } from '../index';
 
 import { createBullet } from './projectiles';
-
 document.addEventListener('DOMContentLoaded', createEventListeners);
 
 //Onclick events for game setup and win/loss screens

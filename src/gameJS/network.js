@@ -2,9 +2,9 @@ import { playerArray, bulletArray, boss, platformArray } from '../index';
 import { setTime, countDown, startGameTime } from './boss';
 
 const io = require('socket.io-client');
-const socket = io.connect('http://localhost:3000');
+const socket = io.connect('http://127.0.0.1:1337');
 
-let client = 0;
+export let client = 2;
 
 document.addEventListener('DOMContentLoaded', createEventListeners);
 function createEventListeners() {
@@ -27,6 +27,9 @@ socket.on('projectileSync', function(msg) {
 socket.on('platformSync', function(msg) {
   if (client == 1) platformArray.plat = msg;
 });
+socket.on('controlSync', function(msg) {
+  if (client == 1) platformArray.plat = msg;
+});
 socket.on('bossSync', function(msg) {
   if (client == 1) {
     boss.x = msg.x;
@@ -38,7 +41,6 @@ socket.on('bossSync', function(msg) {
     boss.state = msg.state;
   }
 });
-
 socket.on('gameSync', function(msg) {
   if (client == 1) {
     setTime(msg.startGameTime, msg.countDown);

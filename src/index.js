@@ -48,15 +48,6 @@ function worldSize(arg) {
   generatePlatform();
 }
 
-//Booleans for controls
-export let controlState = {
-  left: false,
-  right: false,
-  up: false,
-  down: false,
-  shoot: false
-};
-
 //Player default values
 export let playerSize = 40,
   duckHeight = playerSize / 2,
@@ -145,10 +136,14 @@ function checkWin() {
     boss.y > windowHeight
   )
     document.getElementById('winner').style.display = 'block';
+  else document.getElementById('winner').style.display = 'hidden';
 
   //Losing conditions / Game Over
-  if (playerArray.players.length == 0)
+  if (playerArray.players.length == 0) {
     document.getElementById('gameOver').style.display = 'block';
+  } else {
+    document.getElementById('gameOver').style.display = 'hidden';
+  }
 }
 
 //This will execute every frame

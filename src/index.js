@@ -7,12 +7,12 @@ import {
   hitDetection,
   bulletCollision,
   isOnPlatform,
-  bossHit,
   bulletCollisionPlat
 } from './gameJS/collision';
 import { drawHealthBar } from './gameJS/healthbars';
 import { bossBehavior } from './gameJS/boss';
 import { AI } from './gameJS/AI';
+import { send } from './gameJS/network';
 
 //Setup hotkey listener
 document.addEventListener('keydown', keyHandler);
@@ -48,15 +48,6 @@ function worldSize(arg) {
   generatePlatform();
 }
 
-//Booleans for controls
-export let controlState = {
-  left: false,
-  right: false,
-  up: false,
-  down: false,
-  shoot: false
-};
-
 //Player default values
 export let playerSize = 40,
   duckHeight = playerSize / 2,
@@ -78,6 +69,9 @@ gameWindow.canvas.height = windowHeight;
 gameWindow.canvas.width = windowWidth;
 
 //Arrays
+// ----------------------------------------------------
+//These things should be synced over the network
+
 export let bulletArray = {
   bullets: []
 };
@@ -101,6 +95,7 @@ export let boss = {
   ammo: 100
 };
 
+//------------------------------------------------------------
 //Build World on load
 drawSetupWindow();
 generatePlatform();
@@ -141,10 +136,12 @@ function checkWin() {
     boss.y > windowHeight
   )
     document.getElementById('winner').style.display = 'block';
+  else document.getElementById('winner').style.display = 'none';
 
   //Losing conditions / Game Over
   if (playerArray.players.length == 0)
     document.getElementById('gameOver').style.display = 'block';
+  else document.getElementById('gameOver').style.display = 'none';
 }
 
 //This will execute every frame
@@ -155,7 +152,6 @@ function drawFrame() {
   if (bossTime == 1) {
     if (boss.y < windowHeight + 100) {
       bossBehavior();
-      // bossHit();
     }
   }
 
@@ -182,6 +178,9 @@ function drawFrame() {
   drawBullet();
 
   ballSpeed();
+
+  //send data over network
+  send();
 
   // call update when the browser is ready to draw again
   window.requestAnimationFrame(drawFrame);

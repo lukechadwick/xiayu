@@ -12,6 +12,8 @@ io = socket(app);
 
 //Log when user connects/disconnects
 io.on('connection', socket => {
+  console.log(socket);
+
   console.log('User connected from:', socket.handshake.headers.host);
   socket.on('disconnect', () => {
     socket.disconnect();
@@ -35,6 +37,7 @@ io.on('connection', socket => {
     io.emit('gameSync', msg);
   });
   socket.on('controlSync', msg => {
-    io.emit('gameSync', msg);
+    console.log(msg);
+    io.emit('controlSync', msg);
   });
 });

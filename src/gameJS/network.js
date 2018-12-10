@@ -1,6 +1,7 @@
 import { playerArray, bulletArray, boss, platformArray } from '../index';
 import { setTime, countDown, startGameTime } from './boss';
 
+//init socket
 const io = require('socket.io-client');
 let socket = io.connect('http://' + document.getElementById('ipAddress').value);
 
@@ -35,7 +36,11 @@ socket.on('platformSync', msg => {
 
 socket.on('controlSync', msg => {
   if (client == 0) {
-    //if server listen for input commands
+    if (msg == 'up') {
+      playerArray.players[1].upState = true;
+    } else {
+      playerArray.players[1].upState = false;
+    }
   }
 });
 
@@ -56,6 +61,10 @@ socket.on('gameSync', msg => {
   }
 });
 
+export function sendData(socketName, msg) {
+  socket.emit(socketName, msg);
+}
+
 //Have a sending service here if client
 export function send() {
   //sockets send
@@ -65,9 +74,5 @@ export function send() {
     socket.emit('platformSync', platformArray.plat);
     socket.emit('bossSync', boss);
     socket.emit('gameSync', { countDown, startGameTime });
-  }
-
-  if (client == 1) {
-    socket.emit('controlSync');
   }
 }

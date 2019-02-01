@@ -1,16 +1,16 @@
-import { playerArray, duckHeight, setupGame } from '../index';
+import { playerArray, duckHeight, setupGame } from "../index";
 
-import { createBullet } from './projectiles';
-import { client, sendData } from './network';
-document.addEventListener('DOMContentLoaded', createEventListeners);
+import { createBullet } from "./projectiles";
+import { client, sendData } from "./network";
+document.addEventListener("DOMContentLoaded", createEventListeners);
 
 //Onclick events for game setup and win/loss screens
 function createEventListeners() {
-  var beginClick = document.getElementById('startGame');
+  var beginClick = document.getElementById("startGame");
   beginClick.onclick = beginGame;
-  var restartClick = document.getElementById('restartGame');
+  var restartClick = document.getElementById("restartGame");
   restartClick.onclick = restartGame;
-  var restartClickWin = document.getElementById('restartGameWin');
+  var restartClickWin = document.getElementById("restartGameWin");
   restartClickWin.onclick = restartGame;
 }
 
@@ -23,8 +23,7 @@ function restartGame() {
 }
 
 export function keyHandler(e) {
-  var key_state = event.type == 'keydown' ? true : false;
-
+  var key_state = event.type == "keydown" ? true : false;
   //e.preventDefault()
 
   //checks keycodes against player one and two to detect keyboard input
@@ -49,13 +48,24 @@ export function keyHandler(e) {
         playerArray.players[p].shootState
       )
         shoot(p);
-    } else if (client == 1) {
-      if (e.keyCode == (p == 0 ? 65 : 37)) sendData('controlSync', 'left');
-      if (e.keyCode == (p == 0 ? 87 : 38)) sendData('controlSync', 'up');
-      if (e.keyCode == (p == 0 ? 68 : 39)) sendData('controlSync', 'right');
+    }
+    //Networked controls
+    if (client == 1) {
+      if (e.keyCode == (p == 0 ? 65 : 37))
+        sendData("controlSync", { control: "left", state: key_state });
 
-      if (e.keyCode == (p == 0 ? 83 : 40)) sendData('controlSync', 'duck');
-      if (e.keyCode == (p == 0 ? 32 : 16)) sendData('controlSync', 'shoot');
+      if (e.keyCode == (p == 0 ? 87 : 38))
+        sendData("controlSync", { control: "up", state: key_state });
+
+      if (e.keyCode == (p == 0 ? 68 : 39))
+        sendData("controlSync", { control: "right", state: key_state });
+
+      if (e.keyCode == (p == 0 ? 83 : 40))
+        sendData("controlSync", { control: "duck", state: key_state });
+
+      if (e.keyCode == (p == 0 ? 32 : 16))
+        sendData("controlSync", { control: "shoot", state: key_state });
+
       if (
         !playerArray.players[p].reloading &&
         playerArray.players[p].shootState

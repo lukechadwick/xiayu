@@ -2,6 +2,8 @@ const express = require("express");
 const server = express();
 const port = process.env.PORT || 1337;
 
+let serverList = [];
+
 const app = server.listen(port, () => {
   console.log("Listening on port:", port);
 });
@@ -14,8 +16,15 @@ io = socket(app);
 const ioToMaster = require("socket.io-client");
 let socketToMaster = ioToMaster.connect("http://localhost:1338");
 
+socketToMaster.on("serverList", msg => {
+  serverList = msg;
+  console.log("Current Game Servers", serverList);
+});
+
 //Log when user connects/disconnects
 io.on("connection", socket => {
+  socketToMaster.emit("requestServerList", {});
+
   console.log("User connected from:", socket.handshake.headers.host);
   socket.on("disconnect", () => {
     socket.disconnect();

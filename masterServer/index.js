@@ -38,6 +38,12 @@ io.on("connection", socket => {
     console.log("Current Servers:", serverList);
     socket.disconnect();
   });
+
+  //Send server list to clients/servers when requested
+  socket.on("requestServerList", msg => {
+    console.log(socket.handshake.headers.host, "requested server list.");
+    io.emit("serverList", serverList);
+  });
 });
 
 //Simple http get request for server list

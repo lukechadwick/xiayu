@@ -10,10 +10,12 @@ app = server.listen(port, () => {
 var socket = require("socket.io");
 io = socket(app);
 
+//Connect to master server
+const ioToMaster = require("socket.io-client");
+let socketToMaster = ioToMaster.connect("http://localhost:1338");
+
 //Log when user connects/disconnects
 io.on("connection", socket => {
-  // console.log(socket);
-
   console.log("User connected from:", socket.handshake.headers.host);
   socket.on("disconnect", () => {
     socket.disconnect();

@@ -12,12 +12,30 @@ app = server.listen(port, () => {
 var socket = require("socket.io");
 io = socket(app);
 
-//Log when user connects/disconnects
+checkDuplicate = connection => {
+  if (serverList.find(element => element == connection)) {
+    return true;
+  }
+};
+
+removeServer = connection => {
+  let index = serverList.indexOf(connection);
+  if (index !== -1) serverList.splice(index, 1);
+};
+
+//Log when server connects/disconnects
 io.on("connection", socket => {
-  // console.log(socket);
+  if (!checkDuplicate(socket.handshake.headers.host)) {
+    serverList.push(socket.handshake.headers.host);
+  }
 
   console.log("Server connected from:", socket.handshake.headers.host);
-  socket.on("disconnect", () => {
+  console.log("Current Servers:", serverList);
+
+  socket.on("disconnect", e => {
+    console.log(socket.handshake.headers.host, "Disconnected");
+    removeServer(socket.handshake.headers.host);
+    console.log("Current Servers:", serverList);
     socket.disconnect();
   });
 });

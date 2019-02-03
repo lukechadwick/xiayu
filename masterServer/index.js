@@ -4,7 +4,7 @@ const port = process.env.PORT || 1338;
 
 let serverList = [];
 
-app = server.listen(port, () => {
+const app = server.listen(port, () => {
   console.log("Listening on port:", port);
 });
 
@@ -38,4 +38,10 @@ io.on("connection", socket => {
     console.log("Current Servers:", serverList);
     socket.disconnect();
   });
+});
+
+//Simple http get request for server list
+server.get("/listRequest", function(req, res) {
+  console.log(req.headers.host, "requested server list.");
+  res.send(serverList);
 });

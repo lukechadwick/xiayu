@@ -2,7 +2,7 @@ const express = require("express");
 const server = express();
 const port = process.env.PORT || 1337;
 
-app = server.listen(port, () => {
+const app = server.listen(port, () => {
   console.log("Listening on port:", port);
 });
 
@@ -22,6 +22,7 @@ io.on("connection", socket => {
   });
 });
 
+//Sync game data
 io.on("connection", socket => {
   socket.on("playerSync", msg => {
     io.emit("playerSync", msg);

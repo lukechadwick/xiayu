@@ -26,13 +26,22 @@ removeServer = connection => {
 //Log when server connects/disconnects
 io.on("connection", socket => {
   if (!checkDuplicate(socket.request.connection.remoteAddress + ":1337")) {
-    serverList.push(socket.request.connection.remoteAddress + ":1337");
+    if (socket.request.connection.remoteAddress.length > 7) {
+      let string = socket.request.connection.remoteAddress + ":1337";
+
+      //format to regular IP if v4
+      if (string.substr(0, 7) == "::ffff:") {
+        string = string.substr(7);
+      }
+      serverList.push(string);
+    }
   }
 
   console.log(
     "Server connected from:",
     socket.request.connection.remoteAddress + ":1337"
   );
+
   console.log("Current Servers:", serverList);
 
   socket.on("disconnect", e => {
@@ -40,7 +49,7 @@ io.on("connection", socket => {
       socket.request.connection.remoteAddress + ":1337",
       "Disconnected"
     );
-    //removeServer(socket.request.connection.remoteAddress + ':1337");
+    removeServer(socket.request.connection.remoteAddress + ":1337");
     console.log("Current Servers:", serverList);
     socket.disconnect();
   });
@@ -54,6 +63,6 @@ io.on("connection", socket => {
 
 //Simple http get request for server list
 server.get("/listRequest", function(req, res) {
-  console.log(req.headers.host, "requested server list.");
+  console.log("Client requested server list.");
   res.send(serverList);
 });

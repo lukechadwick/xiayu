@@ -34,7 +34,7 @@ io.on("connection", socket => {
 
   socket.on("disconnect", e => {
     console.log(socket.handshake.headers.host, "Disconnected");
-    removeServer(socket.handshake.headers.host);
+    //removeServer(socket.handshake.headers.host);
     console.log("Current Servers:", serverList);
     socket.disconnect();
   });

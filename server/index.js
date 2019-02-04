@@ -12,7 +12,7 @@ io = socket(app);
 
 //Connect to master server
 const ioToMaster = require("socket.io-client");
-let socketToMaster = ioToMaster.connect("http://localhost:1338");
+let socketToMaster = ioToMaster.connect("http://207.246.67.158:1338");
 
 //Log when user connects/disconnects
 io.on("connection", socket => {

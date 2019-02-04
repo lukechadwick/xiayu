@@ -25,19 +25,22 @@ removeServer = connection => {
 
 //Log when server connects/disconnects
 io.on("connection", socket => {
-  if (!checkDuplicate(socket.request.connection.remoteAddress)) {
-    serverList.push(socket.request.connection.remoteAddress);
+  if (!checkDuplicate(socket.request.connection.remoteAddress + ":1337")) {
+    serverList.push(socket.request.connection.remoteAddress + ":1337");
   }
 
   console.log(
     "Server connected from:",
-    socket.request.connection.remoteAddress
+    socket.request.connection.remoteAddress + ":1337"
   );
   console.log("Current Servers:", serverList);
 
   socket.on("disconnect", e => {
-    console.log(socket.request.connection.remoteAddress, "Disconnected");
-    //removeServer(socket.request.connection.remoteAddress);
+    console.log(
+      socket.request.connection.remoteAddress + ":1337",
+      "Disconnected"
+    );
+    //removeServer(socket.request.connection.remoteAddress + ':1337");
     console.log("Current Servers:", serverList);
     socket.disconnect();
   });

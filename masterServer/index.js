@@ -25,29 +25,43 @@ removeServer = connection => {
 
 //Log when server connects/disconnects
 io.on("connection", socket => {
-  if (!checkDuplicate(socket.request.connection.remoteAddress)) {
-    serverList.push(socket.request.connection.remoteAddress);
+  if (
+    !checkDuplicate(
+      socket.request.connection.remoteAddress +
+        ":" +
+        socket.request.connection.remotePort
+    )
+  ) {
+    serverList.push(
+      socket.request.connection.remoteAddress +
+        ":" +
+        socket.request.connection.remotePort
+    );
   }
 
   console.log(
     "Server connected from:",
-    socket.request.connection.remoteAddress
+    socket.request.connection.remoteAddress +
+      ":" +
+      socket.request.connection.remotePort
   );
   console.log("Current Servers:", serverList);
 
   socket.on("disconnect", e => {
-    console.log(socket.request.connection.remoteAddress, "Disconnected");
-    //removeServer(socket.request.connection.remoteAddress);
+    console.log(
+      socket.request.connection.remoteAddress +
+        ":" +
+        socket.request.connection.remotePort,
+      "Disconnected"
+    );
+    //removeServer(socket.request.connection.remoteAddress + ':' + socket.request.connection.remotePort);
     console.log("Current Servers:", serverList);
     socket.disconnect();
   });
 
   //Send server list to clients/servers when requested
   socket.on("requestServerList", msg => {
-    console.log(
-      socket.request.connection.remoteAddress,
-      "requested server list."
-    );
+    console.log(socket.request.connection.remote, "requested server list.");
     io.emit("serverList", serverList);
   });
 });

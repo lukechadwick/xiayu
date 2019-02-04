@@ -4,7 +4,7 @@ import { setTime, countDown, startGameTime } from "./boss";
 //init socket
 const io = require("socket.io-client");
 let socket = io.connect("http://" + document.getElementById("ipAddress").value);
-let socketMasterList = io.connect("http://127.0.0.1:1338");
+let socketMasterList = io.connect("http://207.246.67.158:1338");
 
 export let client = 2;
 
@@ -18,7 +18,6 @@ function createEventListeners() {
   //Set client/server flag
   document.getElementById("client").onclick = () => {
     socketMasterList.emit("requestServerList");
-
     client = 1;
   };
   document.getElementById("server").onclick = () => {

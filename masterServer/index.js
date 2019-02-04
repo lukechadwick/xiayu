@@ -13,7 +13,7 @@ var socket = require("socket.io");
 io = socket(app);
 
 checkDuplicate = connection => {
-  if (serverList.find(element => element == connection)) {
+  if (serverList.find(element => element.contains(connection))) {
     return true;
   }
 };
@@ -25,7 +25,7 @@ removeServer = connection => {
 
 //Log when server connects/disconnects
 io.on("connection", socket => {
-  if (!checkDuplicate(socket.request.connection.remoteAddress + ":1337")) {
+  if (!checkDuplicate(socket.request.connection.remoteAddress)) {
     if (socket.request.connection.remoteAddress.length > 7) {
       let string = socket.request.connection.remoteAddress + ":1337";
 

@@ -27,14 +27,14 @@ removeServer = connection => {
 
 //Log when server connects/disconnects
 io.on("connection", socket => {
-  if (!checkDuplicate(socket.request.connection.remoteAddress + ":1337")) {
-    if (socket.request.connection.remoteAddress.length > 7) {
-      let string = socket.request.connection.remoteAddress + ":1337";
+  if (socket.request.connection.remoteAddress.length > 7) {
+    let string = socket.request.connection.remoteAddress + ":1337";
 
-      //format to regular IP if v4
-      if (string.substr(0, 7) == "::ffff:") {
-        string = string.substr(7);
-      }
+    //format to regular IP if v4
+    if (string.substr(0, 7) == "::ffff:") {
+      string = string.substr(7);
+    }
+    if (!checkDuplicate(string)) {
       serverList.push(string);
     }
   }

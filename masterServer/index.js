@@ -5,7 +5,7 @@ const port = process.env.PORT || 1338;
 let serverList = [];
 
 const app = server.listen(port, () => {
-  console.log("Master Listening on port:", port);
+  console.log("Listening on port:", port);
 });
 
 //Start listening for connections
@@ -13,7 +13,9 @@ var socket = require("socket.io");
 io = socket(app);
 
 checkDuplicate = connection => {
-  if (serverList.find(element => element.contains(connection))) {
+  console.log("dupe", connection);
+
+  if (serverList.find(element => element == connection)) {
     return true;
   }
 };
@@ -25,7 +27,7 @@ removeServer = connection => {
 
 //Log when server connects/disconnects
 io.on("connection", socket => {
-  if (!checkDuplicate(socket.request.connection.remoteAddress)) {
+  if (!checkDuplicate(socket.request.connection.remoteAddress + ":1337")) {
     if (socket.request.connection.remoteAddress.length > 7) {
       let string = socket.request.connection.remoteAddress + ":1337";
 

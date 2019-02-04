@@ -5,7 +5,7 @@ const port = process.env.PORT || 1338;
 let serverList = [];
 
 const app = server.listen(port, () => {
-  console.log("Listening on port:", port);
+  console.log("Master Listening on port:", port);
 });
 
 //Start listening for connections

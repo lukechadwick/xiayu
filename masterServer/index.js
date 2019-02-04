@@ -13,8 +13,6 @@ var socket = require("socket.io");
 io = socket(app);
 
 checkDuplicate = connection => {
-  console.log("dupe", connection);
-
   if (serverList.find(element => element == connection)) {
     return true;
   }
